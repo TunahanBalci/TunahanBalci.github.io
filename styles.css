@@ -390,10 +390,10 @@ body::after {
 }
 
 .hero-title {
-    font-size: clamp(48px, 8vw, 96px);
+    font-size: clamp(56px, 10vw, 120px);
     font-weight: 900;
     line-height: 1.1;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     letter-spacing: -2px;
     color: var(--text-primary);
     position: relative;
@@ -459,15 +459,15 @@ body::after {
 }
 
 .hero-subtitle {
-    font-size: clamp(20px, 3vw, 32px);
+    font-size: clamp(26px, 4vw, 42px);
     font-weight: 600;
     color: var(--soft-mint);
-    margin-bottom: 30px;
-    letter-spacing: 2px;
+    margin-bottom: 35px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     animation: fadeInUp 0.8s ease-out 0.1s both, typeWriter 3s steps(20) 0.5s both;
     overflow: hidden;
-    border-right: 3px solid var(--soft-mint);
+    border-right: 4px solid var(--soft-mint);
     white-space: nowrap;
     max-width: fit-content;
 }
@@ -493,11 +493,12 @@ body::after {
 }
 
 .hero-description {
-    font-size: clamp(16px, 2vw, 20px);
+    font-size: clamp(17px, 2.2vw, 22px);
     line-height: 1.8;
     color: var(--text-secondary);
     margin-bottom: 50px;
     animation: fadeInUp 0.8s ease-out 0.2s both;
+    max-width: 850px;
 }
 
 .hero-description strong {
@@ -1599,10 +1600,10 @@ body::after {
     }
     
     .hero-title {
-        font-size: clamp(32px, 10vw, 48px) !important;
-        margin-bottom: 15px;
+        font-size: clamp(38px, 12vw, 58px) !important;
+        margin-bottom: 18px;
         letter-spacing: -1px;
-        line-height: 1.2;
+        line-height: 1.15;
     }
     
     .hero-title::before {
@@ -1610,9 +1611,9 @@ body::after {
     }
     
     .hero-subtitle {
-        font-size: clamp(14px, 4vw, 18px) !important;
-        margin-bottom: 20px;
-        letter-spacing: 1px;
+        font-size: clamp(16px, 5vw, 24px) !important;
+        margin-bottom: 22px;
+        letter-spacing: 1.5px;
         white-space: normal !important;
         border-right: none !important;
         animation: fadeInUp 0.8s ease-out 0.1s both !important;
@@ -1624,9 +1625,9 @@ body::after {
     }
     
     .hero-description {
-        font-size: 15px !important;
-        line-height: 1.6;
-        margin-bottom: 30px;
+        font-size: 16px !important;
+        line-height: 1.65;
+        margin-bottom: 32px;
     }
     
     .hero-buttons {
@@ -1908,15 +1909,15 @@ body::after {
     }
     
     .hero-title {
-        font-size: 28px !important;
+        font-size: 32px !important;
     }
     
     .hero-subtitle {
-        font-size: 13px !important;
+        font-size: 15px !important;
     }
     
     .hero-description {
-        font-size: 14px !important;
+        font-size: 15px !important;
     }
     
     .section-title {
