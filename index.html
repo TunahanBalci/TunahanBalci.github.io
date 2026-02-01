@@ -13,6 +13,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Space Background -->
+    <div id="space-background">
+        <div class="sun-wrapper">
+            <img src="./assets/bg_elements/sun.png" alt="Sun" class="sun">
+            <div class="sun-glow"></div>
+        </div>
+        <div id="sky-elements"></div>
+    </div>
+
+    <!-- Scroll Meteor -->
+    <div id="scroll-meteor-container">
+        <img id="scroll-meteor" src="./assets/bg_elements/meteor.svg" alt="Meteor">
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
@@ -35,7 +49,6 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <canvas class="hero-canvas" id="heroCanvas"></canvas>
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title" data-text="Tunahan Balcı">
@@ -53,6 +66,13 @@
                     <a href="#contact" class="btn btn-outline">Let's Talk</a>
                 </div>
             </div>
+        </div>
+        <div class="wave-container wave-to-light">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill wave-layer-1"></path>
+                <path d="M985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35a600.21,600.21,0,0,0,321.39,29.09C379.7,66.84,435.48,77.42,492,86.26c51.14,8,103,13.2,154.51,6.23,60.89-8.24,119.5-24.84,179.36-23.75,56.12,1,111.45,18.84,159.78,24.1Z" class="shape-fill wave-layer-2"></path>
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" class="shape-fill wave-layer-3"></path>
+            </svg>
         </div>
     </section>
 
@@ -175,6 +195,13 @@
                 </div>
             </div>
         </div>
+        <div class="wave-container wave-to-deep">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill wave-layer-1"></path>
+                <path d="M985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35a600.21,600.21,0,0,0,321.39,29.09C379.7,66.84,435.48,77.42,492,86.26c51.14,8,103,13.2,154.51,6.23,60.89-8.24,119.5-24.84,179.36-23.75,56.12,1,111.45,18.84,159.78,24.1Z" class="shape-fill wave-layer-2"></path>
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" class="shape-fill wave-layer-3"></path>
+            </svg>
+        </div>
     </section>
 
     <!-- Experience Section -->
@@ -262,6 +289,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="wave-container wave-to-light">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill wave-layer-1"></path>
+                <path d="M985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35a600.21,600.21,0,0,0,321.39,29.09C379.7,66.84,435.48,77.42,492,86.26c51.14,8,103,13.2,154.51,6.23,60.89-8.24,119.5-24.84,179.36-23.75,56.12,1,111.45,18.84,159.78,24.1Z" class="shape-fill wave-layer-2"></path>
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" class="shape-fill wave-layer-3"></path>
+            </svg>
         </div>
     </section>
 
@@ -529,15 +563,21 @@
                     <div class="skills-grid">
                         <div class="skill-item">
                             <div class="skill-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
+                                <img src="./assets/logos/google_cloud.svg" alt="Google Cloud">
                             </div>
-                            <span class="skill-name">Docker</span>
+                            <span class="skill-name">Google Cloud</span>
                         </div>
                         <div class="skill-item">
                             <div class="skill-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker Compose">
+                                <img src="./assets/logos/firebase.svg" alt="Firebase">
                             </div>
-                            <span class="skill-name">Docker Compose</span>
+                            <span class="skill-name">Firebase</span>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
+                            </div>
+                            <span class="skill-name">Docker</span>
                         </div>
                         <div class="skill-item">
                             <div class="skill-icon">
@@ -550,12 +590,6 @@
                                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
                             </div>
                             <span class="skill-name">Git</span>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
-                            </div>
-                            <span class="skill-name">GitHub</span>
                         </div>
                         <div class="skill-item">
                             <div class="skill-icon">
@@ -602,6 +636,12 @@
                         </div>
                         <div class="skill-item">
                             <div class="skill-icon">
+                                <img src="./assets/logos/rke.svg" alt="RKE2">
+                            </div>
+                            <span class="skill-name">RKE2</span>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">
                                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg" alt="Jenkins">
                             </div>
                             <span class="skill-name">Jenkins</span>
@@ -612,7 +652,9 @@
                             </div>
                             <span class="skill-name">Github Actions</span>
                         </div>
+
                     </div>
+
                 </div>
 
                 <!-- Mobile Development -->
@@ -641,78 +683,12 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="services-section">
-        <div class="container">
-            <h2 class="section-title">What I Can Do For You</h2>
-            
-            <div class="services-grid">
-                <div class="service-card">
-                    <h3 class="service-title">Full-Stack Development</h3>
-                    <ul class="service-list">
-                        <li>Complete web applications</li>
-                        <li>Beautiful user interfaces</li>
-                        <li>Secure backend systems</li>
-                        <li>Database design & management</li>
-                        <li>User authentication & login</li>
-                        <li>Payment processing</li>
-                        <li>Real-time features</li>
-                        <li>Mobile-responsive design</li>
-                        <li>Email notifications</li>
-                        <li>Cloud deployment</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <h3 class="service-title">Machine Learning & AI</h3>
-                    <ul class="service-list">
-                        <li>Predict customer behavior</li>
-                        <li>Smart recommendations</li>
-                        <li>Image recognition</li>
-                        <li>Text analysis</li>
-                        <li>Intelligent chatbots</li>
-                        <li>Automate decisions</li>
-                        <li>Data insights & patterns</li>
-                        <li>Fraud detection</li>
-                        <li>Sentiment analysis</li>
-                        <li>Custom AI solutions</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <h3 class="service-title">DevOps & Cloud</h3>
-                    <ul class="service-list">
-                        <li>CI/CD pipeline setup</li>
-                        <li>Cloud infrastructure (AWS, Azure, GCP)</li>
-                        <li>Docker containerization</li>
-                        <li>Kubernetes orchestration</li>
-                        <li>Infrastructure as Code</li>
-                        <li>Automated testing & deployment</li>
-                        <li>System monitoring & logging</li>
-                        <li>Performance optimization</li>
-                        <li>Security & compliance</li>
-                        <li>Scalable architecture design</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <h3 class="service-title">Flutter Development</h3>
-                    <ul class="service-list">
-                        <li>Cross-platform mobile apps</li>
-                        <li>iOS & Android development</li>
-                        <li>Beautiful native interfaces</li>
-                        <li>Real-time data synchronization</li>
-                        <li>Push notifications</li>
-                        <li>Offline functionality</li>
-                        <li>App store deployment</li>
-                        <li>Firebase integration</li>
-                        <li>State management</li>
-                        <li>Custom animations</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="wave-container wave-to-deep">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill wave-layer-1"></path>
+                <path d="M985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35a600.21,600.21,0,0,0,321.39,29.09C379.7,66.84,435.48,77.42,492,86.26c51.14,8,103,13.2,154.51,6.23,60.89-8.24,119.5-24.84,179.36-23.75,56.12,1,111.45,18.84,159.78,24.1Z" class="shape-fill wave-layer-2"></path>
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" class="shape-fill wave-layer-3"></path>
+            </svg>
         </div>
     </section>
 
@@ -742,6 +718,13 @@
                     Send me an Email
                 </a>
             </div>
+        </div>
+        <div class="wave-container wave-to-footer">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill wave-layer-1"></path>
+                <path d="M985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35a600.21,600.21,0,0,0,321.39,29.09C379.7,66.84,435.48,77.42,492,86.26c51.14,8,103,13.2,154.51,6.23,60.89-8.24,119.5-24.84,179.36-23.75,56.12,1,111.45,18.84,159.78,24.1Z" class="shape-fill wave-layer-2"></path>
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" class="shape-fill wave-layer-3"></path>
+            </svg>
         </div>
     </section>
 

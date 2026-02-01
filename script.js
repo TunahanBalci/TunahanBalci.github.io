@@ -1,104 +1,20 @@
-// Hero Canvas Animation - Particle Network
-const canvas = document.getElementById('heroCanvas');
-const ctx = canvas.getContext('2d');
+// Mobile Menu Toggle
+const hamburger = document.querySelector('.hamburger');
+const navMenu = document.querySelector('.nav-menu');
 
-let particles = [];
-let mouseX = 0;
-let mouseY = 0;
-
-// Set canvas size
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-// Particle class
-class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 2 + 1;
-    }
-
-    update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        // Bounce off edges
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-
-        // Mouse interaction
-        const dx = mouseX - this.x;
-        const dy = mouseY - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        if (dist < 100) {
-            const force = (100 - dist) / 100;
-            this.x -= dx * force * 0.03;
-            this.y -= dy * force * 0.03;
-        }
-    }
-
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(168, 218, 255, 0.6)';
-        ctx.fill();
-    }
-}
-
-// Initialize particles
-for (let i = 0; i < 100; i++) {
-    particles.push(new Particle());
-}
-
-// Animation loop
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Update and draw particles
-    particles.forEach(particle => {
-        particle.update();
-        particle.draw();
+if (hamburger) {
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active');
     });
-
-    // Draw connections
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < 120) {
-                ctx.beginPath();
-                ctx.strokeStyle = `rgba(168, 218, 255, ${1 - dist / 120})`;
-                ctx.lineWidth = 0.5;
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.stroke();
-            }
-        }
-    }
-
-    requestAnimationFrame(animate);
 }
-animate();
 
-// Track mouse position for particles and glow effect
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    
-    // Update CSS variables for the glow effect
-    const xPercent = (e.clientX / window.innerWidth) * 100;
-    const yPercent = (e.clientY / window.innerHeight) * 100;
-    document.body.style.setProperty('--mouse-x', `${xPercent}%`);
-    document.body.style.setProperty('--mouse-y', `${yPercent}%`);
+// Close mobile menu when clicking on a link
+document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        if (hamburger) hamburger.classList.remove('active');
+    });
 });
 
 // Smooth Scrolling
@@ -115,27 +31,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Mobile Menu Toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
-
-hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-});
-
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-    });
-});
-
-// Intersection Observer for Scroll Animations
+// Intersection Observer for Scroll Animations - DISABLED per user request for immediate load
+// Content is now visible by default in CSS
+/*
 const observerOptions = {
-    threshold: 0.15,
-    rootMargin: '0px 0px -100px 0px'
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
@@ -146,134 +47,18 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe sections with scroll animation
-const scrollAnimatedSections = document.querySelectorAll('.scroll-animate');
-scrollAnimatedSections.forEach(section => {
+document.querySelectorAll('section').forEach(section => {
+    section.classList.add('scroll-animate');
     observer.observe(section);
 });
 
-// Intersection Observer for Portfolio items fade-in
-const fadeObserverOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const fadeObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
-            fadeObserver.unobserve(entry.target);
-        }
-    });
-}, fadeObserverOptions);
-
-// Observe all portfolio items, service cards, timeline items, and skill items
-const animatedElements = document.querySelectorAll(
-    '.portfolio-item, .service-card, .timeline-item, .skill-item'
-);
-
-animatedElements.forEach(el => {
-    fadeObserver.observe(el);
+document.querySelectorAll('.portfolio-item, .timeline-item, .skill-item, .service-card').forEach(el => {
+    observer.observe(el);
 });
+*/
 
-// Contact Button Animations
-const contactButtons = document.querySelectorAll('.contact-btn');
 
-contactButtons.forEach(button => {
-    button.addEventListener('mouseenter', () => {
-        button.style.transform = 'translateY(-5px) scale(1.02)';
-    });
-    
-    button.addEventListener('mouseleave', () => {
-        button.style.transform = 'translateY(0) scale(1)';
-    });
-});
-
-// Parallax Effect for Hero Section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero-content');
-    
-    if (hero && scrolled < window.innerHeight) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        hero.style.opacity = 1 - (scrolled / 800);
-    }
-});
-
-// Portfolio Item Hover Effects
-const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-portfolioItems.forEach(item => {
-    const image = item.querySelector('.portfolio-image');
-    
-    item.addEventListener('mouseenter', () => {
-        image.style.transform = 'scale(1.05)';
-    });
-    
-    item.addEventListener('mouseleave', () => {
-        image.style.transform = 'scale(1)';
-    });
-});
-
-// Cursor Effect (Optional - creates a custom cursor)
-const cursor = document.createElement('div');
-cursor.classList.add('custom-cursor');
-document.body.appendChild(cursor);
-
-let cursorX = 0;
-let cursorY = 0;
-
-document.addEventListener('mousemove', (e) => {
-    cursorX = e.clientX;
-    cursorY = e.clientY;
-});
-
-function animateCursor() {
-    const delay = 0.1;
-    
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-    
-    requestAnimationFrame(animateCursor);
-}
-
-animateCursor();
-
-// Add hover effect for interactive elements
-const interactiveElements = document.querySelectorAll('a, button, .portfolio-item, .category-card, .timeline-item, .skill-item');
-
-interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        cursor.classList.add('cursor-hover');
-    });
-    
-    el.addEventListener('mouseleave', () => {
-        cursor.classList.remove('cursor-hover');
-    });
-});
-
-// Lazy Loading Images (if you add real images later)
-const lazyImages = document.querySelectorAll('img[data-src]');
-
-const imageObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-            imageObserver.unobserve(img);
-        }
-    });
-});
-
-lazyImages.forEach(img => imageObserver.observe(img));
-
-// Initialize animations on page load
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-});
-
-// Add active state to navigation based on scroll position
+// Active Navigation State
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-menu a');
 
@@ -283,8 +68,7 @@ window.addEventListener('scroll', () => {
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
-        
-        if (pageYOffset >= sectionTop - 200) {
+        if (pageYOffset >= (sectionTop - 300)) {
             current = section.getAttribute('id');
         }
     });
@@ -297,18 +81,207 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// Scroll-based background light animation
-window.addEventListener('scroll', () => {
-    const scrollPercent = window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight);
-    const hue1 = 210 + (scrollPercent * 60); // Blue to purple range
-    const hue2 = 270 + (scrollPercent * 60); // Purple to teal range
+// Space Background Logic
+function initSpaceBackground() {
+    const container = document.getElementById('sky-elements');
+    const width = window.innerWidth;
+    const height = window.innerHeight;
     
-    document.body.style.setProperty('--scroll-hue-1', hue1);
-    document.body.style.setProperty('--scroll-hue-2', hue2);
+    // Distribution density: ~1 element per 10000px^2 (adjustable)
+    const area = width * height;
+    const count = Math.floor(area / 15000);
+    
+    // Weights
+    const weights = [
+        { type: 'star_1.svg', weight: 25, size: [10, 20] },
+        { type: 'star_2.svg', weight: 10, size: [8, 15] },
+        { type: 'galaxy.svg', weight: 5, size: [30, 60] }
+    ];
+    
+    // Prepare weighted pool
+    const pool = [];
+    weights.forEach(item => {
+        for (let i = 0; i < item.weight; i++) {
+            pool.push(item);
+        }
+    });
+    
+    // Clear existing
+    container.innerHTML = '';
+    
+    for (let i = 0; i < count; i++) {
+        const item = pool[Math.floor(Math.random() * pool.length)];
+        const el = document.createElement('img');
+        
+        el.src = `./assets/bg_elements/${item.type}`;
+        el.className = 'space-element';
+        
+        // Random position
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+        
+        el.style.left = `${left}%`;
+        el.style.top = `${top}%`;
+        
+        // Random size
+        const size = Math.random() * (item.size[1] - item.size[0]) + item.size[0];
+        el.style.width = `${size}px`;
+        
+        // Specific styles per type
+        if (item.type === 'meteor.svg') {
+            el.style.opacity = 0;
+            el.style.animation = `meteorShoot 2s linear infinite`;
+            el.style.animationDelay = `${Math.random() * 20}s`; // Random delay up to 20s
+        } else {
+            // Twinkle animation for stars
+             if (item.type.includes('star')) {
+                el.style.animation = `twinkle ${2 + Math.random() * 3}s ease-in-out infinite`;
+                el.style.animationDelay = `${Math.random() * 5}s`;
+             }
+             // Rotation for galaxies
+             if (item.type.includes('galaxy')) {
+                 el.style.transform = `rotate(${Math.random() * 360}deg)`;
+                 el.style.opacity = 0.5 + Math.random() * 0.3;
+             }
+        }
+        
+        container.appendChild(el);
+    }
+}
+
+// Init on load with fallback
+function runInit() {
+    if (!document.getElementById('sky-elements').hasChildNodes()) {
+        initSpaceBackground();
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runInit);
+} else {
+    runInit();
+}
+window.addEventListener('load', runInit); // Double ensure
+
+// Optional: Re-init on resize (debounced)
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(initSpaceBackground, 500);
 });
 
-// Mouse position for dynamic light effect
-document.addEventListener('mousemove', (e) => {
-    const mouseY = (e.clientY / window.innerHeight) * 100;
-    document.body.style.setProperty('--mouse-y', mouseY + '%');
-});
+// Scroll Meteor Logic
+// Scroll Meteor Logic - Smooth Version
+function initScrollMeteor() {
+    const meteor = document.getElementById('scroll-meteor');
+    const workSection = document.getElementById('work');
+    const experienceSection = document.getElementById('experience');
+
+    if (!meteor || !workSection || !experienceSection) return;
+
+    let currentProgress = 0;
+    let targetProgress = 0;
+    let isRequestingInternal = false;
+
+    function updateScrollTarget() {
+        const scrollY = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const windowWidth = window.innerWidth; // Recalculate dimensions in loop/scroll for resizing
+        
+        const startScroll = workSection.offsetTop - windowHeight;
+        // End a bit later to ensure it goes fully off screen
+        const endScroll = experienceSection.offsetTop + experienceSection.offsetHeight; 
+        
+        const scrollRange = endScroll - startScroll;
+        
+        // Calculate raw progress target (0 to 1)
+        let rawProgress = (scrollY - startScroll) / scrollRange;
+        
+        // Update target
+        targetProgress = rawProgress;
+    }
+
+    function render() {
+        // Lerp factor - lower is smoother/slower catchup (0.05 - 0.1 is good)
+        // Adjust this value to change "heaviness"
+        const lerpFactor = 0.08; 
+        
+        // Interpolate
+        currentProgress += (targetProgress - currentProgress) * lerpFactor;
+        
+        // Optimization: If close enough, snap? (Optional, but keeps it running for continuous feel)
+        // Or stop if delta is tiny? For now, run continuously for simplest smoothness.
+        
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        
+        // Only render if within reasonable range (visible or just entering/leaving)
+        // Expanded range for smoothness during entry/exit
+        if (currentProgress > -0.2 && currentProgress < 1.2) {
+            meteor.style.opacity = 1;
+
+            // X Position: Traverse screen
+            const startX = -300;
+            const endX = windowWidth + 300;
+            const currentX = startX + (currentProgress * (endX - startX));
+
+            // Scale: Grow
+            const scale = 1 + (currentProgress * 3);
+
+            // Y Position
+            const startY = -windowHeight * 0.2;
+            const endY = windowHeight * 0.5;
+            const currentY = startY + (currentProgress * (endY - startY));
+
+            meteor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) rotate(270deg) scale(${scale})`;
+        } else {
+             // If significantly off screen/progress, hide
+            meteor.style.opacity = 0;
+        }
+
+        requestAnimationFrame(render);
+    }
+
+    window.addEventListener('scroll', updateScrollTarget, { passive: true });
+    window.addEventListener('resize', updateScrollTarget);
+    
+    // Kickoff
+    updateScrollTarget();
+    currentProgress = targetProgress; // Start at correct place immediately to prevent jump
+    render();
+}
+
+// Hide Sky Elements in Footer
+function initFooterObserver() {
+    const footer = document.querySelector('footer');
+    const skyElements = document.getElementById('sky-elements');
+    
+    if (!footer || !skyElements) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Footer is visible, hide sky
+                skyElements.style.opacity = '0';
+            } else {
+                // Footer is not visible, show sky
+                skyElements.style.opacity = '1';
+            }
+        });
+    }, {
+        threshold: 0.1 // Trigger when 10% of footer is visible
+    });
+    
+    observer.observe(footer);
+}
+
+// Initialize
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        initScrollMeteor();
+        initFooterObserver();
+    });
+} else {
+    initScrollMeteor();
+    initFooterObserver();
+}
