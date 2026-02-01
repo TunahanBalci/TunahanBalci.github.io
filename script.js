@@ -31,33 +31,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Intersection Observer for Scroll Animations - DISABLED per user request for immediate load
-// Content is now visible by default in CSS
-/*
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('section').forEach(section => {
-    section.classList.add('scroll-animate');
-    observer.observe(section);
-});
-
-document.querySelectorAll('.portfolio-item, .timeline-item, .skill-item, .service-card').forEach(el => {
-    observer.observe(el);
-});
-*/
-
-
 // Active Navigation State
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-menu a');
@@ -87,7 +60,7 @@ function initSpaceBackground() {
     const width = window.innerWidth;
     const height = window.innerHeight;
     
-    // Distribution density: ~1 element per 10000px^2 (adjustable)
+    // Distribution density: ~1 element per 10000px^2
     const area = width * height;
     const count = Math.floor(area / 15000);
     
@@ -163,7 +136,7 @@ if (document.readyState === 'loading') {
 }
 window.addEventListener('load', runInit); // Double ensure
 
-// Optional: Re-init on resize (debounced)
+// Re-init on resize (debounced)
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
@@ -171,7 +144,6 @@ window.addEventListener('resize', () => {
 });
 
 // Scroll Meteor Logic
-// Scroll Meteor Logic - Smooth Version
 function initScrollMeteor() {
     const meteor = document.getElementById('scroll-meteor');
     const workSection = document.getElementById('work');
@@ -186,10 +158,10 @@ function initScrollMeteor() {
     function updateScrollTarget() {
         const scrollY = window.pageYOffset;
         const windowHeight = window.innerHeight;
-        const windowWidth = window.innerWidth; // Recalculate dimensions in loop/scroll for resizing
+        const windowWidth = window.innerWidth; 
         
         const startScroll = workSection.offsetTop - windowHeight;
-        // End a bit later to ensure it goes fully off screen
+
         const endScroll = experienceSection.offsetTop + experienceSection.offsetHeight; 
         
         const scrollRange = endScroll - startScroll;
@@ -202,21 +174,15 @@ function initScrollMeteor() {
     }
 
     function render() {
-        // Lerp factor - lower is smoother/slower catchup (0.05 - 0.1 is good)
-        // Adjust this value to change "heaviness"
+        // Lerp factor: 0.05 - 0.1 for smooth
         const lerpFactor = 0.08; 
         
         // Interpolate
         currentProgress += (targetProgress - currentProgress) * lerpFactor;
         
-        // Optimization: If close enough, snap? (Optional, but keeps it running for continuous feel)
-        // Or stop if delta is tiny? For now, run continuously for simplest smoothness.
-        
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
-        
-        // Only render if within reasonable range (visible or just entering/leaving)
-        // Expanded range for smoothness during entry/exit
+
         if (currentProgress > -0.2 && currentProgress < 1.2) {
             meteor.style.opacity = 1;
 
@@ -235,7 +201,6 @@ function initScrollMeteor() {
 
             meteor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) rotate(270deg) scale(${scale})`;
         } else {
-             // If significantly off screen/progress, hide
             meteor.style.opacity = 0;
         }
 
@@ -269,7 +234,7 @@ function initFooterObserver() {
             }
         });
     }, {
-        threshold: 0.1 // Trigger when 10% of footer is visible
+        threshold: 0.1
     });
     
     observer.observe(footer);

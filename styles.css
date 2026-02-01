@@ -1,15 +1,10 @@
-/* Kurzgesagt Style - Flat, Vibrant, Geometric */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
 
 :root {
-    /* Color Palette - Vibrant & Spacey */
-    /* Deep Backgrounds */
-    --bg-deep: #000000; /* Deep Void Purple */
-    --bg-light: #09122C; /* Lighter Purple/void */
-    --bg-card: #394359; /* Card background */
+    --bg-deep: #000000;
+    --bg-light: #040711; 
+    --bg-card: #394359; 
     
-    
-    /* Accents - High Saturation */
     --accent-cyan: #00E5FF;
     --accent-pink: #FF007A;
     --accent-yellow: #FFD500;
@@ -18,16 +13,19 @@
     --accent-green: #00FF94;
     --accent-orange: #FF5E00;
 
-    /* Text */
     --text-main: #FFFFFF;
     --text-secondary: #E0E0E0;
     --text-muted: #BFA3D9;
 
-    /* Spacing & Shapes */
     --radius-sm: 12px;
     --radius-md: 24px;
     --radius-lg: 40px;
     --radius-round: 50%;
+
+    --wave-color-1: #455eaa;
+    --wave-color-2: #621f67;
+    --wave-color-3: #09122C;
+    --wave-color-4: #000957;
     
     /* Transitions */
     --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -44,7 +42,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 0; /* Behind content (z-index 2), on top of body bg */
+    z-index: 10; 
     pointer-events: none;
     overflow: hidden;
 }
@@ -104,7 +102,7 @@
 
 .space-element {
     position: absolute;
-    filter: brightness(0) invert(1); /* Make white */
+    filter: brightness(0) invert(1); 
     opacity: 0.8;
 }
 
@@ -142,21 +140,21 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Same as sun-wrapper, behind content */
+    z-index: 10; /* Same as space-background */
     pointer-events: none;
     overflow: hidden;
 }
 
 #scroll-meteor {
     position: absolute;
-    top: 10%; /* Centered vertically initially, can be adjusted */
-    left: -300px; /* Start off-screen left */
+    top: 10%; 
+    left: -300px; 
     width: 150px; /* Initial size */
-    height: 150px; /* Conserve Aspect Ratio */
+    height: 150px; 
     opacity: 0;
-    transform: rotate(135deg); /* 135deg (original) + 135deg (requested clockwise adjustment) */
+    transform: rotate(135deg); 
     will-change: transform, opacity;
-    filter: drop-shadow(0 0 20px #F6CE71); /* Glow color F6CE71 */
+    filter: drop-shadow(0 0 20px #F6CE71);
 }
 
 /* Reset & Basics */
@@ -165,6 +163,12 @@
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
+}
+
+img, video, svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 html {
@@ -206,6 +210,8 @@ ul {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    position: relative;
+    z-index: 20; /* Ensure content stays ABOVE the stars (z-index 10) */
 }
 
 /* Buttons - Flat & Blobby */
@@ -333,7 +339,7 @@ ul {
     position: relative;
     padding-top: 80px;
     overflow: hidden;
-    background: transparent; /* Changed from var(--bg-deep) to reveal space background */
+    background: transparent;
 }
 
 .hero-content {
@@ -378,23 +384,23 @@ ul {
 section {
     padding: 100px 0;
     position: relative;
-    z-index: 2; /* Ensure content stays above */
+    padding: 100px 0;
+    position: relative;
 }
 
-/* Alternating Backgrounds for Waves */
-/* Alternating Backgrounds for Waves - Adjusted for Transparency */
-.bg-deep { background-color: transparent; }
-.bg-light { background-color: rgba(9, 18, 44, 0.4); } /* Semi-transparent light */
-.work-section { background-color: rgba(9, 18, 44, 0.4); } /* Projects - Light */
-.experience-section { background-color: transparent; } /* Experience - Deep (Transparent) */
-.skills-section { background-color: rgba(9, 18, 44, 0.4); } /* Skills - Light */
-.services-section { background-color: transparent; } /* Services - Deep */
-.contact-section { background-color: transparent; } /* Contact - Light */
+
+.bg-deep { background-color: transparent; } 
+.bg-light { background-color: #040711; } 
+.work-section { background-color: #040711; } 
+.experience-section { background-color: transparent; } 
+.skills-section { background-color: #040711; } 
+.services-section { background-color: transparent; } 
+.contact-section { background-color: transparent; }
 
 /* Wave Dividers */
 .wave-container {
     position: absolute;
-    bottom: -1px; /* Overlap slightly to prevent gaps */
+    bottom: -1px; 
     left: 0;
     width: 100%;
     overflow: hidden;
@@ -408,43 +414,36 @@ section {
     position: relative;
     display: block;
     width: calc(100% + 1.3px);
-    height: 100px; /* Adjust height as needed */
+    height: 100px; 
 }
 
 .wave-container .shape-fill {
     fill: #FFFFFF;
 }
 
-/* Wave Colors to match NEXT section */
-/* 
-   Logic for Transparency:
-   - Wave to Light (Space -> Blue): "Blue Hill" rising up. Needs transform: rotate(180deg) (Default). Fill: Blue.
-   - Wave to Deep (Blue -> Space): "Blue Stalactite" hanging down. Needs transform: rotate(0deg). Bottom offset. Fill: Blue.
-   - Wave to Footer (Space -> Dark): "Dark Hill" rising up. Needs transform: rotate(180deg) (Default). Fill: Dark.
-*/
 
-.wave-to-light {
-    /* Default rotate(180deg) works for rising hill */
-    /* using default rotation */
-}
-.wave-to-light .shape-fill { fill: rgba(9, 18, 44, 0.4); }
+.wave-to-light .wave-layer-1 { fill: #455eaa; opacity: 1; }
+.wave-to-light .wave-layer-2 { fill: #060917; opacity: 1; }
+.wave-to-light .wave-layer-3 { fill: #040711; opacity: 1; }
 
 .wave-to-deep {
-    bottom: -99px; /* Hanging "Stalactite" / Curtain */
-    transform: rotate(0deg); /* Straight Top, Wavy Bottom */
+    bottom: -99px; 
+    transform: rotate(0deg);
 }
-.wave-to-deep .shape-fill { fill: rgba(9, 18, 44, 0.4); } /* Fill is SAME as current section to extend it */
 
-.wave-to-footer {
-    /* Default rotate(180deg) works for rising hill */
-    /* using default rotation */
+/* Hanging FROM Projects (#09122C) */
+.wave-to-deep .wave-layer-1 { fill: #455eaa; opacity: 1; }
+.wave-to-deep .wave-layer-2 { fill: #060917; opacity: 1; }
+.wave-to-deep .wave-layer-3 { fill: #040711; opacity: 1; } 
+
+/* Transitioning INTO Footer (#000957) */
+.wave-to-footer .wave-layer-1 { fill: #455eaa; opacity: 1; }
+.wave-to-footer .wave-layer-2 { fill: #04082d; opacity: 1; }
+.wave-to-footer .wave-layer-3 { fill: #000957; opacity: 1; }
+
+.wave-layer-1, .wave-layer-2, .wave-layer-3 {
+    opacity: 1;
 }
-.wave-to-footer .shape-fill { fill: #000957; }
-
-/* Opacity Layers */
-.wave-layer-1 { opacity: 0.3; } /* Furthest back */
-.wave-layer-2 { opacity: 0.6; } /* Middle */
-.wave-layer-3 { opacity: 1.0; } /* Front - matches next bg */
 
 
 .section-header {
@@ -480,7 +479,7 @@ section {
 /* Projects Grid - Flat Card Style */
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 40px;
 }
 
@@ -568,8 +567,7 @@ section {
 
 /* Experience - Connector Style */
 .experience-section {
-    /* Background handled by generic class now */
-    border-radius: 0; /* Full width sections now */
+    border-radius: 0; 
     margin: 0;
     width: 100%;
 }
@@ -585,7 +583,7 @@ section {
     content: '';
     position: absolute;
     top: 0;
-    left: 20px; /* Aligned left for better mobile flow, can perform center in desktop if needed, lets stick to left for clean list */
+    left: 20px; 
     height: 100%;
     width: 4px;
     background: rgba(255,255,255,0.1);
@@ -810,7 +808,7 @@ section {
 
 /* Footer */
 .footer {
-    background-color: #000957; /* Darker void */
+    background-color: #000957; 
     padding: 60px 0 20px;
     color: var(--text-muted);
 }
@@ -844,31 +842,185 @@ section {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .hero-title { font-size: 2.5rem; }
-    .hero-subtitle { font-size: 1.5rem; }
-    .nav-menu { display: none; } /* Mobile Menu Logic Required in JS if implementing fully custom, for now standard Hide */
+    /* Global Adjustments */
+    section {
+        padding: 60px 0;
+    }
     
-    .hamburger { display: block; }
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .section-description {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    /* Hero */
+    .hero {
+        padding-top: 100px;
+        text-align: center;
+    }
+
+    .hero-title { 
+        font-size: 2.8rem; 
+    }
+    
+    .hero-subtitle { 
+        font-size: 1.5rem; 
+        margin-bottom: 20px;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+        margin-bottom: 30px;
+        padding: 0 15px;
+    }
+    
+    /* Navigation */
+    .nav-menu { 
+        display: none; 
+    }
+    
+    .hamburger { 
+        display: block; 
+        z-index: 1001;
+    }
     
     .nav-menu.active {
         display: flex;
         flex-direction: column;
-        position: absolute;
-        top: 60px;
+        position: fixed;
+        top: 0;
         left: 0;
         width: 100%;
+        height: 100vh;
         background: var(--bg-deep);
-        padding: 20px;
-        border-bottom: 2px solid var(--accent-pink);
+        padding-top: 80px;
+        align-items: center;
+        gap: 30px;
+        z-index: 999; /* Below hamburger */
+    }
+
+    .nav-menu.active a {
+        font-size: 1.5rem;
     }
     
-    .timeline::before { left: 10px; }
-    .timeline-marker { left: 0px; }
-    .timeline-item { padding-left: 40px; }
+    /* Timeline / Experience */
+    .timeline::before { 
+        left: 20px; 
+    }
+    
+    .timeline-marker { 
+        left: 10px; 
+        width: 20px;
+        height: 20px;
+    }
+    
+    .timeline-item { 
+        padding-left: 50px; 
+        margin-bottom: 40px;
+    }
+
+    .timeline-content {
+        padding: 20px;
+    }
+
+    .timeline-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .timeline-title {
+        font-size: 1.1rem;
+    }
+    
+    /* Sun Adjustment */
+    .sun-wrapper {
+        width: 300px;
+        height: 300px;
+        top: -50px;
+        right: -50px;
+    }
 }
 
-/* Scroll Animations - DISABLED */
-/* Content visible by default to prevent floating effect */
+@media (max-width: 480px) {
+    /* Smaller Phones */
+    .container {
+        padding: 0 15px;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 0 20px;
+    }
+    
+    .btn {
+        width: 100%;
+        margin: 0;
+    }
+    
+    .portfolio-title {
+        font-size: 1.3rem;
+    }
+    
+    .contact-buttons {
+        flex-direction: column;
+    }
+    
+    .contact-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Compact Skills Grid */
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px;
+    }
+
+    .skill-item {
+        padding: 10px;
+        aspect-ratio: auto;
+        min-height: 100px;
+    }
+    
+    .skill-icon {
+        width: 30px;
+        height: 30px;
+        margin-bottom: 5px;
+    }
+    
+    .skill-name {
+        font-size: 0.8rem;
+    }
+
+    /* Compact Projects */
+    .portfolio-image {
+        height: 160px; 
+    }
+    
+    .portfolio-info {
+        padding: 15px;
+    }
+    
+    .portfolio-tech {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+    
+    /* Fix Wave Overlap for Contact Section */
+    #contact {
+        padding-top: 140px;
+    }
+}
+
 .scroll-animate {
     opacity: 1;
     transform: none;
@@ -879,5 +1031,3 @@ section {
     opacity: 1;
     transform: none;
 }
-
-/* Staggered delay handled by JS or nth-child here - sticking to JS for simplicity or generic delays */
