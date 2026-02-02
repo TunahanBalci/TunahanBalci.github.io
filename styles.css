@@ -528,6 +528,9 @@ section {
 .project-category.fullstack { background: var(--accent-cyan); color: var(--bg-deep); }
 .project-category.ml { background: var(--accent-pink); color: white; }
 .project-category.devops { background: var(--accent-yellow); color: var(--bg-deep); }
+.project-category.systems { background: var(--accent-purple); color: white; }
+.project-category.networking { background: var(--accent-pink); color: white; }
+.project-category.backend { background: var(--accent-cyan); color: var(--bg-deep); }
 
 .portfolio-info {
     padding: 25px;
