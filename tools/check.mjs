@@ -381,6 +381,26 @@ check('skills: strips stand still and wrap with reduced motion', async () => {
   strips.forEach((x, n) => assert(x.anim === 'none' && x.clone === 'none' && x.fits, `strip ${n + 1}: ${JSON.stringify(x)}`));
 });
 
+// ---------- contact and footer ----------
+check('contact: email, LinkedIn and GitHub, and the email fits a 320px phone', async () => {
+  await load({ width: 320, height: 640 });
+  const c = await js(`({ hrefs: [...document.querySelectorAll('#contact a')].map(a => a.href),
+    right: document.querySelector('.contact-email')?.getBoundingClientRect().right })`);
+  assert(c.hrefs.includes('mailto:dev.tunahanbalci@gmail.com'), 'email link missing');
+  assert(c.hrefs.some(h => h.includes('linkedin.com/in/tunahan-balci')), 'LinkedIn link missing');
+  assert(c.hrefs.includes('https://github.com/TunahanBalci'), 'GitHub link missing');
+  assert(c.right !== undefined && c.right <= 320, `email runs off screen to ${c.right}px`);
+});
+
+check('footer: only live links, the real email and the current year', async () => {
+  await load();
+  const hrefs = await js(`[...document.querySelectorAll('footer a')].map(a => a.getAttribute('href'))`);
+  assert(!hrefs.includes('#education') && !hrefs.includes('#services'), 'dead section links remain');
+  assert(hrefs.includes('mailto:dev.tunahanbalci@gmail.com'), 'real email missing');
+  assert(!(await js(`document.documentElement.outerHTML.includes('hello@example.com')`)), 'placeholder email remains');
+  assert(await js(`document.getElementById('year')?.textContent`) === String(new Date().getFullYear()), 'year is not current');
+});
+
 // ---------- run ----------
 const close = await launch();
 let failed = 0;

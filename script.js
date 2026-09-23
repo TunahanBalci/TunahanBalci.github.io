@@ -95,9 +95,14 @@ function initMarquees() {
     });
 }
 
+function initYear() {
+    document.getElementById('year').textContent = new Date().getFullYear();
+}
+
 // ---------- start ----------
 initSky();
 initMeteor();
 initNav();
 initReveal();
 initMarquees();
+initYear();

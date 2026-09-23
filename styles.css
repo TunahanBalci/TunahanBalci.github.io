@@ -434,3 +434,35 @@ main { position: relative; z-index: 1; }
     .marquee-track { flex-shrink: 1; flex-wrap: wrap; padding-right: 0; }
     .marquee-track[aria-hidden] { display: none; }
 }
+
+/* ============ Contact ============ */
+.contact-inner { display: grid; justify-items: center; max-width: 720px; text-align: center; }
+.contact-title { font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem); letter-spacing: -0.03em; }
+.contact-lead { max-width: 48ch; margin-top: 20px; color: var(--text-muted); font-size: var(--fs-lead); }
+.contact-email {
+    max-width: 100%;
+    margin-top: 36px;
+    overflow-wrap: anywhere;
+    color: var(--accent);
+    font-size: clamp(1.25rem, 2.5vw + 0.75rem, 2rem);
+    font-weight: 700;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
+    transition: background-size 0.3s var(--ease);
+}
+.contact-email:hover { background-size: 100% 2px; }
+.contact-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px; }
+.btn svg { width: 18px; height: 18px; }
+
+/* ============ Footer ============ */
+.site-footer {
+    position: relative;
+    z-index: 1;
+    padding-block: 32px;
+    border-top: 1px solid var(--line);
+    background: var(--bg-footer);
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+}
+.footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a:hover, .footer-email:hover { color: var(--text); }
