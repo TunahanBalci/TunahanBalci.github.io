@@ -11,7 +11,7 @@ Turn the current playful space-themed portfolio into a creative but professional
 
 - Plain HTML, CSS and JS. No build step, no libraries.
 - All content, links and assets carry over unchanged unless listed under Content changes.
-- Full rewrite of `index.html`, `styles.css` and `script.js` (approach A). One image resized in `assets/`.
+- Full rewrite of `index.html`, `styles.css` and `script.js` (approach A). One image resized in `assets/`. One zero-dependency check script added at `tools/check.mjs`.
 
 ## Visual system
 
@@ -49,7 +49,7 @@ Order: nav, hero, projects, experience, skills, contact, footer. Section ids sta
 
 ### Navigation
 
-- Fixed. Transparent on load. After scrolling past the hero, gains a translucent blurred background and hairline bottom border via a `.scrolled` class.
+- Fixed. Transparent at the top of the page. Once the page scrolls more than 8px, gains a translucent blurred background and hairline bottom border via an `is-scrolled` class on `<html>`. (Waiting until past the hero would slide hero text under a transparent bar.)
 - Brand mark in gold left, five links right. Active link tracked with an IntersectionObserver on sections; sets `aria-current="page"`.
 - Mobile: hamburger is a `<button>` with `aria-expanded` and `aria-label`. Open menu is a full-height panel that fades and slides in, links stacked large, `body` scroll locked while open. Hamburger animates to a cross. Closes on link click and on Escape.
 
@@ -59,7 +59,7 @@ Full viewport height, content left-aligned in the container.
 
 1. Gold eyebrow: "Software Engineer · [location]". Location is a placeholder the owner fills in; ship with "Software Engineer" alone if unset.
 2. Name as display heading, plain white.
-3. One positioning sentence from the current description, ellipsis removed.
+3. One positioning sentence, verbatim from the current description: "I don't see myself as just a Software Engineer, but as a problem solver."
 4. Buttons: "View projects" primary linking `#work`, "Get in touch" ghost linking `#contact`.
 5. Proof strip pinned to the hero bottom: three tiles for Sepetix, Travela, Fitalyze. Each tile: thumbnail, name, one-line category, arrow. Whole tile links to that project's featured card (`#project-sepetix` etc). Horizontal scroll with snap on mobile.
 6. Scroll cue: small "scroll" label and thin line at bottom centre, fades after first scroll.
@@ -67,8 +67,8 @@ Full viewport height, content left-aligned in the container.
 ### Sky
 
 - Sun top right, smaller than today, reduced opacity, soft glow. Rotating rays removed.
-- Stars generated once on load, capped count, no regeneration on resize.
-- Meteor: one crossing when the page loads, then repeats at a random interval between 20 and 40 seconds. CSS animation toggled by a class, no permanent `requestAnimationFrame` loop.
+- Stars are small CSS dots generated once on load, capped count, no regeneration on resize. The star and galaxy SVGs are no longer used.
+- Meteor: a thin gold CSS streak. One crossing when the page loads, then repeats at a random interval between 20 and 40 seconds. CSS animation toggled by a class, no permanent `requestAnimationFrame` loop. `meteor.svg` is no longer used.
 - Sky sits behind content. Footer observer that hides stars is removed; the footer is opaque.
 
 ### Projects
@@ -91,7 +91,7 @@ Vertical timeline, consistent structure for every entry:
 - real `<ul>` bullets
 - tags
 
-Logo header block removed. Missing `inovako.svg` reference and the dead placeholder fallback removed. Line and markers in the neutral scale; marker turns cyan when its entry is in view (same observer as scroll reveal).
+Logo header block removed. Missing `inovako.svg` reference and the dead placeholder fallback removed. Line and markers in the neutral scale; marker turns cyan the first time its entry scrolls into view and stays cyan (same observer as scroll reveal).
 
 ### Skills
 
@@ -102,7 +102,7 @@ Title "Tech stack". Four labelled marquee strips, alternating direction:
 3. ML and AI
 4. DevOps, cloud and mobile
 
-Each strip: a track of logo and name pairs, duplicated once so the CSS translate loop is seamless. Pauses on hover and on touch. Track duplicate is `aria-hidden`; strip has an `aria-label`. Under reduced motion each strip becomes a static wrapping row. Icons keep the devicon CDN.
+Each strip: a track of logo and name pairs, duplicated once so the CSS translate loop is seamless. Pauses on hover and on touch. Track duplicate is `aria-hidden`; strip is labelled by its visible heading via `aria-labelledby`. Icons sit on a small light circle so dark logos stay visible. Under reduced motion each strip becomes a static wrapping row. Icons keep the devicon CDN.
 
 ### Contact
 
@@ -138,7 +138,7 @@ Single row: name, links to Projects, Experience, Contact, correct email `dev.tun
 
 Only these. Everything else is verbatim.
 
-- Hero description: ellipsis removed.
+- Hero description: reduced to the single sentence quoted under Hero.
 - Project cards: existing description text reused as the one-liner.
 - Footer email fixed from `hello@example.com` to `dev.tunahanbalci@gmail.com`.
 - Removed: Inovako logo reference, dead footer links.
@@ -154,7 +154,7 @@ Flagged, not changed: first experience entry reads "Aug 2025 - Aug 2025".
 
 ## Verification
 
-No test harness. Manual checklist before finishing:
+Automated: `node tools/check.mjs` drives headless Chrome and must pass. Manual checklist before finishing:
 
 1. Open at 375, 768 and 1280 px widths. No horizontal scroll at any width.
 2. Every nav, hero button, proof strip tile and footer link lands on the right section.
