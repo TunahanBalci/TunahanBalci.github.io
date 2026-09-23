@@ -32,7 +32,8 @@
 
 /* ============ Base ============ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); -webkit-text-size-adjust: 100%; }
+html { scroll-padding-top: var(--nav-h); -webkit-text-size-adjust: 100%; }
+html.is-ready { scroll-behavior: smooth; }
 body {
     background: var(--bg);
     color: var(--text);
@@ -110,7 +111,7 @@ main { position: relative; z-index: 1; }
 /* ============ Reduced motion (global kill switch) ============ */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
-    html { scroll-behavior: auto; }
+    html { scroll-behavior: auto !important; }
 }
 
 /* ============ Sky ============ */
@@ -127,7 +128,7 @@ main { position: relative; z-index: 1; }
     content: '';
     position: absolute;
     inset: -35%;
-    background: radial-gradient(circle, rgba(245, 196, 81, 0.22), transparent 62%);
+    background: radial-gradient(circle, color-mix(in srgb, var(--gold) 22%, transparent), transparent 62%);
     animation: sun-glow 8s ease-in-out infinite alternate;
 }
 .sun img { position: relative; width: 100%; }
@@ -151,7 +152,7 @@ main { position: relative; z-index: 1; }
     width: 160px;
     height: 2px;
     border-radius: 2px;
-    background: linear-gradient(90deg, transparent, rgba(245, 196, 81, 0.9));
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--gold) 90%, transparent));
     opacity: 0;
     transform: translate3d(-200px, 0, 0) rotate(14deg);
 }
@@ -192,8 +193,10 @@ main { position: relative; z-index: 1; }
 .menu-open { overflow: hidden; }
 
 @media (max-width: 767px) {
-    .nav-toggle { display: grid; }
-    .nav-links {
+    /* Without JS the toggle is dead and there's nothing to open the panel, so both stay
+       scoped to .js: no JS means the links show as a plain wrapped row instead. */
+    .js .nav-toggle { display: grid; }
+    .js .nav-links {
         position: fixed;
         inset: 0;
         z-index: 1;
@@ -207,13 +210,14 @@ main { position: relative; z-index: 1; }
         transform: translateY(-12px);
         transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0s linear 0.3s;
     }
-    .nav-links a { color: var(--text); font-size: 1.75rem; font-weight: 700; }
+    .js .nav-links a { color: var(--text); font-size: 1.75rem; font-weight: 700; }
     .menu-open .nav-links {
         opacity: 1;
         visibility: visible;
         transform: none;
         transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
     }
+    html:not(.js) .nav-links { flex-wrap: wrap; justify-content: center; row-gap: 12px; }
 }
 
 /* ============ Hero ============ */
@@ -302,7 +306,7 @@ main { position: relative; z-index: 1; }
     background: var(--surface);
     transition: border-color 0.25s var(--ease);
 }
-.feature:hover { border-color: rgba(34, 211, 238, 0.45); }
+.feature:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
 .feature:nth-child(even) .feature-media { order: 2; }
 .feature-media { aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius); background: rgba(255, 255, 255, 0.03); }
 .feature-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
@@ -323,7 +327,7 @@ main { position: relative; z-index: 1; }
     background: var(--surface);
     transition: border-color 0.25s var(--ease), background-color 0.25s var(--ease);
 }
-.card:hover { border-color: rgba(34, 211, 238, 0.45); background: var(--surface-hover); }
+.card:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); background: var(--surface-hover); }
 .card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .card-body { display: grid; gap: 10px; padding: 20px; }
 .card h4 { font-size: 1.125rem; font-weight: 700; letter-spacing: -0.01em; }
@@ -376,7 +380,7 @@ main { position: relative; z-index: 1; }
     background: var(--bg);
     transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
-.timeline-item.is-visible::before { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.15); }
+.timeline-item.is-visible::before { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 15%, transparent); }
 .timeline-date { color: var(--gold); font-size: var(--fs-small); font-weight: 600; }
 .timeline-item h3 { font-size: var(--fs-h3); }
 .timeline-company { font-weight: 600; }
@@ -411,11 +415,13 @@ main { position: relative; z-index: 1; }
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
+/* Without JS the track never animates or gets a hidden clone, so the mask would just clip it. */
+html:not(.js) .marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
 /* Two identical tracks side by side, each sliding its own width, so the loop has no seam. */
 .marquee-track { display: flex; flex-shrink: 0; gap: 12px; padding-right: 12px; }
 .marquee.is-animated .marquee-track { animation: marquee var(--duration, 40s) linear infinite; }
 .marquee[data-direction="right"] .marquee-track { animation-direction: reverse; }
-.marquee:hover .marquee-track, .marquee.is-paused .marquee-track { animation-play-state: paused; }
+.marquee:hover .marquee-track, .marquee.is-paused .marquee-track, .marquee:focus-visible .marquee-track { animation-play-state: paused; }
 @keyframes marquee { to { transform: translateX(-100%); } }
 
 .tech {
