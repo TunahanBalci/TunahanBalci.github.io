@@ -215,3 +215,70 @@ main { position: relative; z-index: 1; }
         transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
     }
 }
+
+/* ============ Hero ============ */
+.hero {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 48px;
+    min-height: 100svh;
+    padding-top: calc(var(--nav-h) + 32px);
+    padding-bottom: 88px; /* room for the scroll cue */
+}
+.hero-inner { align-self: center; }
+.hero-title { font-size: var(--fs-display); letter-spacing: -0.035em; }
+.hero-lead { max-width: 34ch; margin-top: 20px; color: var(--text-muted); font-size: var(--fs-lead); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+
+.proof { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.proof-tile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 100%;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+.proof-tile:hover { border-color: var(--accent); background: var(--surface-hover); }
+.proof-tile img { flex-shrink: 0; width: 56px; height: 56px; border-radius: 10px; object-fit: cover; }
+.proof-text { display: grid; min-width: 0; }
+.proof-text strong { font-weight: 700; }
+.proof-text span { color: var(--text-muted); font-size: var(--fs-small); }
+.proof-arrow { margin-left: auto; color: var(--accent); transition: transform 0.2s var(--ease); }
+.proof-tile:hover .proof-arrow { transform: translateX(4px); }
+
+.scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    transform: translateX(-50%);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: opacity 0.4s var(--ease);
+}
+.scroll-cue::after { content: ''; width: 1px; height: 32px; background: linear-gradient(var(--text-muted), transparent); }
+.is-scrolled .scroll-cue { opacity: 0; pointer-events: none; }
+
+@media (max-width: 767px) {
+    .proof {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(240px, 82%);
+        margin-inline: calc(-1 * var(--gutter));
+        padding-inline: var(--gutter);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--gutter);
+        scrollbar-width: none;
+    }
+    .proof li { scroll-snap-align: start; }
+}

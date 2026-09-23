@@ -251,6 +251,37 @@ check('nav: an open menu closes when the viewport grows to desktop', async () =>
   assert(!(await js(menuOpen)), 'page is still scroll-locked on desktop');
 });
 
+// ---------- hero ----------
+check('hero: name, one-sentence lead, two actions, three proof tiles', async () => {
+  await load();
+  const h = await js(`({
+    h1: document.querySelector('#home h1')?.textContent.trim(),
+    lead: document.querySelector('.hero-lead')?.textContent.trim(),
+    actions: [...document.querySelectorAll('.hero-actions a')].map(a => a.getAttribute('href')).join(),
+    tiles: [...document.querySelectorAll('.proof-tile')].map(a => a.getAttribute('href')).join() })`);
+  assert(h.h1 === 'Tunahan Balcı', `h1 is ${h.h1}`);
+  assert(h.lead === "I don't see myself as just a Software Engineer, but as a problem solver.", `lead is ${h.lead}`);
+  assert(h.actions === '#work,#contact', `actions: ${h.actions}`);
+  assert(h.tiles === '#project-sepetix,#project-travela,#project-fitalyze', `tiles: ${h.tiles}`);
+});
+
+for (const [width, height] of [[375, 640], [1280, 600], [1280, 900]]) {
+  check(`hero: nothing overlaps at ${width}x${height}`, async () => {
+    await load({ width, height });
+    const r = await js(`(() => { const b = s => document.querySelector(s).getBoundingClientRect();
+      return { actions: b('.hero-actions').bottom, proofTop: b('.proof').top, proofBottom: b('.proof').bottom, cue: b('.scroll-cue').top }; })()`);
+    assert(r.actions <= r.proofTop, `buttons (${r.actions}) run into the proof strip (${r.proofTop})`);
+    assert(r.proofBottom <= r.cue, `proof strip (${r.proofBottom}) runs into the scroll cue (${r.cue})`);
+  });
+}
+
+check('hero: scroll cue fades once the page scrolls', async () => {
+  await load({ reducedMotion: true });
+  await js(`scrollTo(0, 100)`);
+  await sleep(100);
+  assert(await js(`getComputedStyle(document.querySelector('.scroll-cue')).opacity`) === '0', 'scroll cue still visible');
+});
+
 // ---------- run ----------
 const close = await launch();
 let failed = 0;
