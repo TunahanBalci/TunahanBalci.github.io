@@ -227,6 +227,10 @@ main { position: relative; z-index: 1; }
     padding-bottom: 88px; /* room for the scroll cue */
 }
 .hero-inner { align-self: center; }
+/* Grid items default to a content-based minimum width, so the mobile proof
+   carousel's non-wrapping columns would otherwise blow out this row instead
+   of scrolling inside itself. */
+.hero > .container { min-width: 0; }
 .hero-title { font-size: var(--fs-display); letter-spacing: -0.035em; }
 .hero-lead { max-width: 34ch; margin-top: 20px; color: var(--text-muted); font-size: var(--fs-lead); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
