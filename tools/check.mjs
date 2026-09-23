@@ -182,6 +182,75 @@ check('sky: meteor stays still with reduced motion', async () => {
   assert(!(await js(`document.getElementById('meteor').classList.contains('is-flying')`)), 'meteor flew under reduced motion');
 });
 
+// ---------- navigation ----------
+const isScrolled = `document.documentElement.classList.contains('is-scrolled')`;
+const menuOpen = `document.documentElement.classList.contains('menu-open')`;
+
+check('nav: five links in page order', async () => {
+  await load();
+  const hrefs = await js(`[...document.querySelectorAll('#nav-menu a')].map(a => a.getAttribute('href')).join()`);
+  assert(hrefs === '#home,#work,#experience,#skills,#contact', `nav links: ${hrefs}`);
+});
+
+check('nav: bar turns solid once the page scrolls', async () => {
+  await load({ reducedMotion: true });
+  assert(!(await js(isScrolled)), 'bar is solid at the top');
+  await js(`scrollTo(0, 200)`);
+  await sleep(100);
+  assert(await js(isScrolled), 'bar did not turn solid after scrolling');
+});
+
+check('nav: active link follows the section in view', async () => {
+  await load({ reducedMotion: true });
+  for (const id of ['work', 'experience', 'skills', 'contact']) {
+    await js(`document.getElementById('${id}').scrollIntoView()`);
+    await sleep(250);
+    const current = await js(`document.querySelector('#nav-menu a[aria-current="page"]')?.getAttribute('href')`);
+    assert(current === `#${id}`, `at #${id} the active link is ${current}`);
+  }
+});
+
+check('nav: anchor jumps land below the fixed bar', async () => {
+  await load({ reducedMotion: true });
+  for (const id of ['work', 'experience', 'skills']) {
+    await js(`document.querySelector('#nav-menu a[href="#${id}"]').click()`);
+    await sleep(100);
+    const [top, barBottom] = await js(`[document.getElementById('${id}').getBoundingClientRect().top,
+      document.querySelector('.nav-inner').getBoundingClientRect().bottom]`);
+    assert(top >= barBottom - 1, `#${id} starts at ${top}px, under the bar ending at ${barBottom}px`);
+  }
+});
+
+check('nav: mobile menu covers the screen, locks scroll, closes on Escape and on link', async () => {
+  await load({ width: 375, height: 812, reducedMotion: true });
+  await js(`scrollTo(0, 600)`); // the blurred bar is showing now
+  await sleep(100);
+  await js(`document.querySelector('.nav-toggle').click()`);
+  const s = await js(`(() => { const m = document.getElementById('nav-menu'); return {
+    expanded: document.querySelector('.nav-toggle').getAttribute('aria-expanded'),
+    height: m.getBoundingClientRect().height,
+    visibility: getComputedStyle(m).visibility,
+    overflow: getComputedStyle(document.documentElement).overflow }; })()`);
+  assert(s.expanded === 'true', 'aria-expanded is not true');
+  assert(s.visibility === 'visible', 'panel is not visible');
+  assert(s.height >= 811, `panel is ${s.height}px tall, expected the full 812px screen`);
+  assert(s.overflow === 'hidden', 'page scroll is not locked');
+  await js(`document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))`);
+  assert(await js(`document.querySelector('.nav-toggle').getAttribute('aria-expanded')`) === 'false', 'Escape did not close the menu');
+  await js(`document.querySelector('.nav-toggle').click()`);
+  await js(`document.querySelector('#nav-menu a[href="#skills"]').click()`);
+  assert(!(await js(menuOpen)), 'clicking a link did not close the menu');
+});
+
+check('nav: an open menu closes when the viewport grows to desktop', async () => {
+  await load({ width: 375, height: 812 });
+  await js(`document.querySelector('.nav-toggle').click()`);
+  assert(await js(menuOpen), 'menu did not open');
+  await viewport(1280, 900);
+  await sleep(200);
+  assert(!(await js(menuOpen)), 'page is still scroll-locked on desktop');
+});
+
 // ---------- run ----------
 const close = await launch();
 let failed = 0;

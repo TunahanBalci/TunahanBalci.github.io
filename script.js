@@ -28,6 +28,40 @@ function initMeteor() {
     setTimeout(fly, 1200);
 }
 
+// Fixed nav: solid once the page leaves the top, active link follows the section in view,
+// and on mobile the toggle opens a full-screen panel that locks page scroll.
+function initNav() {
+    const root = document.documentElement;
+    const toggle = document.querySelector('.nav-toggle');
+    const links = [...document.querySelectorAll('#nav-menu a')];
+
+    const onScroll = () => root.classList.toggle('is-scrolled', scrollY > 8);
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const setMenu = open => {
+        root.classList.toggle('menu-open', open);
+        toggle.setAttribute('aria-expanded', open);
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+    toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+    links.forEach(a => a.addEventListener('click', () => setMenu(false)));
+    addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+    matchMedia('(min-width: 768px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+
+    // A thin band across the middle of the viewport decides which section is current.
+    const spy = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            links.forEach(a => a.getAttribute('href') === `#${entry.target.id}`
+                ? a.setAttribute('aria-current', 'page')
+                : a.removeAttribute('aria-current'));
+        }
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('main section[id]').forEach(section => spy.observe(section));
+}
+
 // ---------- start ----------
 initSky();
 initMeteor();
+initNav();

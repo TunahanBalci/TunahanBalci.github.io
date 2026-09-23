@@ -160,3 +160,58 @@ main { position: relative; z-index: 1; }
     10% { opacity: 1; }
     to { opacity: 0; transform: translate3d(110vw, 27.5vw, 0) rotate(14deg); }
 }
+
+/* ============ Navigation ============ */
+.site-nav { position: fixed; inset: 0 0 auto; z-index: 100; }
+/* The blurred bar lives on a pseudo-element. A backdrop-filter on .site-nav itself would
+   make it the containing block for the fixed mobile panel and squash the panel into the bar. */
+.site-nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 7, 13, 0.72);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+}
+.is-scrolled .site-nav::before { opacity: 1; }
+
+.nav-inner { position: relative; display: flex; align-items: center; justify-content: space-between; height: var(--nav-h); }
+.brand { color: var(--gold); font-weight: 800; letter-spacing: -0.01em; }
+.nav-links { display: flex; gap: 32px; }
+.nav-links a { color: var(--text-muted); font-size: 0.9375rem; font-weight: 500; transition: color 0.2s var(--ease); }
+.nav-links a:hover { color: var(--text); }
+.nav-links a[aria-current="page"] { color: var(--accent); }
+
+.nav-toggle { display: none; position: relative; z-index: 2; width: 44px; height: 44px; margin-right: -10px; place-content: center; gap: 6px; }
+.nav-toggle span { display: block; width: 22px; height: 2px; border-radius: 2px; background: var(--text); transition: transform 0.3s var(--ease); }
+.menu-open .nav-toggle span:first-child { transform: translateY(4px) rotate(45deg); }
+.menu-open .nav-toggle span:last-child { transform: translateY(-4px) rotate(-45deg); }
+.menu-open { overflow: hidden; }
+
+@media (max-width: 767px) {
+    .nav-toggle { display: grid; }
+    .nav-links {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        background: rgba(5, 7, 13, 0.97);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-12px);
+        transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0s linear 0.3s;
+    }
+    .nav-links a { color: var(--text); font-size: 1.75rem; font-weight: 700; }
+    .menu-open .nav-links {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+    }
+}
