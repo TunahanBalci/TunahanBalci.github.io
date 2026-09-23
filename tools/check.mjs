@@ -74,13 +74,9 @@ async function load({ width = 1280, height = 900, reducedMotion = false } = {}) 
     features: [{ name: 'prefers-reduced-motion', value: reducedMotion ? 'reduce' : 'no-preference' }],
   });
   events = [];
-  // DOMContentLoaded, not window 'load': the legacy markup has an onerror fallback to a
-  // now-dead placeholder image host that Chrome's network stack retries for a very long
-  // time, so 'load' can hang indefinitely. script.js already runs its init on
-  // DOMContentLoaded (window 'load' is only a redundant "double ensure" there), and Chrome
-  // blocks script execution on pending head stylesheets, so by DOMContentLoaded the page's
-  // own CSS and scripts have already run.
-  const loaded = new Promise(done => waiters.push({ method: 'Page.domContentEventFired', done }));
+  // window 'load': the experience section no longer has an onerror fallback to a dead
+  // placeholder image host, so all local resources resolve promptly and 'load' fires normally.
+  const loaded = new Promise(done => waiters.push({ method: 'Page.loadEventFired', done }));
   await cdp('Page.navigate', { url: `${PAGE}?run=${++loads}` }); // query forces a full load every time
   await loaded;
   await sleep(150);
@@ -325,6 +321,33 @@ check('reveal: content stays visible when JavaScript does not run', async () => 
     document.documentElement.classList.remove('js');
     return getComputedStyle(el).opacity; })()`);
   assert(opacity === '1', `reveal content has opacity ${opacity} without the js class`);
+});
+
+// ---------- experience ----------
+check('experience: three entries with the same parts and real bullet lists', async () => {
+  await load();
+  const entries = await js(`[...document.querySelectorAll('#experience .timeline-item')].map(i => ({
+    date: !!i.querySelector('.timeline-date'), role: !!i.querySelector('h3'),
+    company: !!i.querySelector('.timeline-company'),
+    points: i.querySelectorAll('.timeline-points li').length, chips: i.querySelectorAll('.chips li').length }))`);
+  assert(entries.length === 3, `expected 3 entries, got ${entries.length}`);
+  entries.forEach((e, n) => assert(e.date && e.role && e.company && e.points > 0 && e.chips > 0,
+    `entry ${n + 1} is missing a part: ${JSON.stringify(e)}`));
+  assert(!(await js(`document.getElementById('experience').innerHTML.includes('•')`)), 'typed bullet characters remain');
+});
+
+check('experience: no missing logo and no dead placeholder service', async () => {
+  await load();
+  assert(!(await js(`document.documentElement.outerHTML.includes('via.placeholder')`)), 'placeholder fallback remains');
+  assert(await js(`document.querySelectorAll('#experience img').length`) === 0, 'timeline still has logo images');
+});
+
+check('experience: marker turns cyan once its entry is in view', async () => {
+  await load({ reducedMotion: true });
+  await js(`document.querySelector('#experience .timeline-item').scrollIntoView({ block: 'center' })`);
+  await sleep(200);
+  const colour = await js(`getComputedStyle(document.querySelector('#experience .timeline-item'), '::before').borderTopColor`);
+  assert(colour === 'rgb(34, 211, 238)', `marker colour is ${colour}`);
 });
 
 // ---------- run ----------

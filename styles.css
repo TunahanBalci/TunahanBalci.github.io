@@ -347,3 +347,45 @@ main { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) {
     .js .reveal { opacity: 1; transform: none; }
 }
+
+/* ============ Experience ============ */
+.timeline { position: relative; display: grid; gap: 24px; max-width: 820px; padding-left: 36px; }
+.timeline::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+.timeline-item {
+    position: relative;
+    display: grid;
+    gap: 8px;
+    padding: clamp(20px, 3vw, 32px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -36px;
+    top: 34px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--text-muted);
+    border-radius: 50%;
+    background: var(--bg);
+    transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.timeline-item.is-visible::before { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.15); }
+.timeline-date { color: var(--gold); font-size: var(--fs-small); font-weight: 600; }
+.timeline-item h3 { font-size: var(--fs-h3); }
+.timeline-company { font-weight: 600; }
+.timeline-points { display: grid; gap: 8px; margin: 8px 0 12px; color: var(--text-muted); }
+.timeline-points li { position: relative; padding-left: 18px; }
+.timeline-points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+}
