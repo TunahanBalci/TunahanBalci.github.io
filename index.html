@@ -14,17 +14,10 @@
 </head>
 <body>
     <!-- Space Background -->
-    <div id="space-background">
-        <div class="sun-wrapper">
-            <img src="./assets/bg_elements/sun.png" alt="Sun" class="sun">
-            <div class="sun-glow"></div>
-        </div>
-        <div id="sky-elements"></div>
-    </div>
-
-    <!-- Scroll Meteor -->
-    <div id="scroll-meteor-container">
-        <img id="scroll-meteor" src="./assets/bg_elements/meteor.svg" alt="Meteor">
+    <div class="sky" aria-hidden="true">
+        <div class="sun"><img src="./assets/bg_elements/sun.png" alt="" width="1257" height="1287"></div>
+        <div class="stars" id="stars"></div>
+        <span class="meteor" id="meteor"></span>
     </div>
 
     <!-- Navigation -->

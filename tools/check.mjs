@@ -152,6 +152,36 @@ check('foundation: no script errors on load', async () => {
   assert(pageErrors().length === 0, pageErrors().join(' | '));
 });
 
+// ---------- sky ----------
+check('sky: old sun rays, star images and scroll meteor are gone', async () => {
+  await load();
+  assert(!(await js(`!!document.querySelector('#sky-elements, #scroll-meteor, .sun-wrapper')`)), 'legacy sky markup remains');
+  assert(await js(`document.querySelector('.sky')?.getAttribute('aria-hidden')`) === 'true', '.sky must be aria-hidden');
+});
+
+check('sky: stars are generated once and survive a resize', async () => {
+  await load();
+  const read = `[document.querySelectorAll('#stars .star').length, document.querySelector('#stars .star')?.style.left]`;
+  const [count, left] = await js(read);
+  assert(count > 20 && count <= 160, `expected 21 to 160 stars, got ${count}`);
+  await viewport(800, 600);
+  await sleep(700);
+  const [count2, left2] = await js(read);
+  assert(count2 === count && left2 === left, 'stars were regenerated on resize');
+});
+
+check('sky: meteor crosses shortly after load', async () => {
+  await load();
+  await sleep(1500);
+  assert(await js(`document.getElementById('meteor').classList.contains('is-flying')`), 'meteor did not fly');
+});
+
+check('sky: meteor stays still with reduced motion', async () => {
+  await load({ reducedMotion: true });
+  await sleep(1500);
+  assert(!(await js(`document.getElementById('meteor').classList.contains('is-flying')`)), 'meteor flew under reduced motion');
+});
+
 // ---------- run ----------
 const close = await launch();
 let failed = 0;

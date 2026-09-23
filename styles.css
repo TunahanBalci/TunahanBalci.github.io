@@ -112,3 +112,51 @@ main { position: relative; z-index: 1; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
     html { scroll-behavior: auto; }
 }
+
+/* ============ Sky ============ */
+.sky { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+
+.sun {
+    position: absolute;
+    top: clamp(-160px, -12vw, -60px);
+    right: clamp(-160px, -12vw, -60px);
+    width: clamp(240px, 32vw, 440px);
+    opacity: 0.5;
+}
+.sun::before {
+    content: '';
+    position: absolute;
+    inset: -35%;
+    background: radial-gradient(circle, rgba(245, 196, 81, 0.22), transparent 62%);
+    animation: sun-glow 8s ease-in-out infinite alternate;
+}
+.sun img { position: relative; width: 100%; }
+@keyframes sun-glow { to { opacity: 0.55; transform: scale(1.08); } }
+
+.stars { position: absolute; inset: 0; }
+.star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0.7;
+    animation: twinkle 5s ease-in-out infinite;
+}
+@keyframes twinkle { 50% { opacity: 0.2; } }
+
+/* A thin gold streak. tan(14deg) = 0.25, so the path matches the tilt at every width. */
+.meteor {
+    position: absolute;
+    top: 14%;
+    left: 0;
+    width: 160px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, rgba(245, 196, 81, 0.9));
+    opacity: 0;
+    transform: translate3d(-200px, 0, 0) rotate(14deg);
+}
+.meteor.is-flying { animation: meteor 1.8s var(--ease) forwards; }
+@keyframes meteor {
+    10% { opacity: 1; }
+    to { opacity: 0; transform: translate3d(110vw, 27.5vw, 0) rotate(14deg); }
+}
