@@ -389,3 +389,48 @@ main { position: relative; z-index: 1; }
     background: currentColor;
     opacity: 0.5;
 }
+
+/* ============ Skills ============ */
+.stack { display: grid; gap: 28px; }
+.stack-row { min-width: 0; }
+.stack-label {
+    margin-bottom: 12px;
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.marquee {
+    display: flex;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+/* Two identical tracks side by side, each sliding its own width, so the loop has no seam. */
+.marquee-track { display: flex; flex-shrink: 0; gap: 12px; padding-right: 12px; }
+.marquee.is-animated .marquee-track { animation: marquee var(--duration, 40s) linear infinite; }
+.marquee[data-direction="right"] .marquee-track { animation-direction: reverse; }
+.marquee:hover .marquee-track, .marquee.is-paused .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-100%); } }
+
+.tech {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px 8px 8px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+/* A light circle keeps dark logos (Express, Flask, Apple, Vault) visible. */
+.tech img { width: 32px; height: 32px; padding: 5px; border-radius: 50%; background: var(--text); object-fit: contain; }
+
+@media (prefers-reduced-motion: reduce) {
+    .marquee { -webkit-mask-image: none; mask-image: none; }
+    .marquee-track { flex-shrink: 1; flex-wrap: wrap; padding-right: 0; }
+    .marquee-track[aria-hidden] { display: none; }
+}

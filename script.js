@@ -78,8 +78,26 @@ function initReveal() {
     });
 }
 
+// Each strip's track is cloned once so the CSS loop has no seam.
+// Duration scales with item count so every strip moves at the same speed.
+// Mouse hover pauses through CSS; a tap toggles pause on touch screens.
+function initMarquees() {
+    document.querySelectorAll('.marquee').forEach(marquee => {
+        const track = marquee.querySelector('.marquee-track');
+        const clone = track.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        marquee.append(clone);
+        marquee.style.setProperty('--duration', `${track.children.length * 3.5}s`);
+        marquee.classList.add('is-animated');
+        marquee.addEventListener('pointerdown', e => {
+            if (e.pointerType !== 'mouse') marquee.classList.toggle('is-paused');
+        });
+    });
+}
+
 // ---------- start ----------
 initSky();
 initMeteor();
 initNav();
 initReveal();
+initMarquees();

@@ -350,6 +350,37 @@ check('experience: marker turns cyan once its entry is in view', async () => {
   assert(colour === 'rgb(34, 211, 238)', `marker colour is ${colour}`);
 });
 
+// ---------- skills ----------
+check('skills: four labelled strips holding all 54 tools once', async () => {
+  await load();
+  const s = await js(`({
+    strips: document.querySelectorAll('#skills .marquee').length,
+    tools: [...document.querySelectorAll('#skills .marquee-track:not([aria-hidden]) .tech')].map(t => t.textContent.trim()),
+    labelled: [...document.querySelectorAll('#skills .marquee')].every(m => document.getElementById(m.getAttribute('aria-labelledby') || '-')) })`);
+  assert(s.strips === 4, `expected 4 strips, got ${s.strips}`);
+  assert(s.tools.length === 54 && new Set(s.tools).size === 54, `expected 54 unique tools, got ${s.tools.length} (${new Set(s.tools).size} unique)`);
+  assert(s.labelled, 'a strip is not labelled by a visible heading');
+});
+
+check('skills: each strip loops with a hidden duplicate and no gap at 1440px', async () => {
+  await load({ width: 1440 });
+  const strips = await js(`[...document.querySelectorAll('#skills .marquee')].map(m => {
+    const [a, b] = m.querySelectorAll('.marquee-track');
+    return { anim: getComputedStyle(a).animationName, hidden: b?.getAttribute('aria-hidden'),
+      same: b?.children.length === a.children.length, wide: a.getBoundingClientRect().width >= m.clientWidth }; })`);
+  strips.forEach((x, n) => assert(x.anim === 'marquee' && x.hidden === 'true' && x.same && x.wide, `strip ${n + 1}: ${JSON.stringify(x)}`));
+});
+
+check('skills: strips stand still and wrap with reduced motion', async () => {
+  await load({ reducedMotion: true });
+  const strips = await js(`[...document.querySelectorAll('#skills .marquee')].map(m => {
+    const t = m.querySelector('.marquee-track');
+    return { anim: getComputedStyle(t).animationName,
+      clone: getComputedStyle(m.querySelector('.marquee-track[aria-hidden]')).display,
+      fits: t.getBoundingClientRect().width <= m.clientWidth + 1 }; })`);
+  strips.forEach((x, n) => assert(x.anim === 'none' && x.clone === 'none' && x.fits, `strip ${n + 1}: ${JSON.stringify(x)}`));
+});
+
 // ---------- run ----------
 const close = await launch();
 let failed = 0;
