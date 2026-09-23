@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="styles.css">
+    <link rel="preload" href="data.json" as="fetch" crossorigin>
     <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -28,12 +29,13 @@
                 <span></span><span></span>
             </button>
             <ul class="nav-links" id="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#work">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home" data-i18n="nav.home">Home</a></li>
+                <li><a href="#work" data-i18n="nav.work">Projects</a></li>
+                <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
+                <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+                <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
             </ul>
+            <button class="lang-toggle" type="button" id="lang-toggle" lang="tr" aria-label="Türkçe'ye geç" hidden>TR</button>
         </nav>
     </header>
 
@@ -42,159 +44,33 @@
     <section id="home" class="hero">
         <div class="container hero-inner">
             <!-- owner: add " · City" after the title when ready -->
-            <p class="eyebrow">Software Engineer</p>
+            <p class="eyebrow" data-i18n="hero.eyebrow">Software Engineer</p>
             <h1 class="hero-title">Tunahan Balcı</h1>
-            <p class="hero-lead">I don't see myself as just a Software Engineer, but as a problem solver.</p>
+            <p class="hero-lead" data-i18n="hero.lead">I don't see myself as just a Software Engineer, but as a problem solver.</p>
             <div class="hero-actions">
-                <a class="btn btn-primary" href="#work">View projects</a>
-                <a class="btn btn-ghost" href="#contact">Get in touch</a>
+                <a class="btn btn-primary" href="#work" data-i18n="hero.viewProjects">View projects</a>
+                <a class="btn btn-ghost" href="#contact" data-i18n="hero.getInTouch">Get in touch</a>
             </div>
         </div>
         <div class="container">
-            <ul class="proof" aria-label="Featured projects">
-                <li>
-                    <a class="proof-tile" href="#project-sepetix">
-                        <img src="./assets/projects/shopping_platform.png" alt="" width="1389" height="1242">
-                        <span class="proof-text"><strong>Sepetix</strong><span>Full-Stack &amp; DevOps</span></span>
-                        <span class="proof-arrow" aria-hidden="true">→</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="proof-tile" href="#project-travela">
-                        <img src="./assets/projects/travela.png" alt="" width="250" height="228">
-                        <span class="proof-text"><strong>Travela</strong><span>Full-Stack · ASP.NET</span></span>
-                        <span class="proof-arrow" aria-hidden="true">→</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="proof-tile" href="#project-fitalyze">
-                        <img src="./assets/projects/fitalyze.png" alt="" width="200" height="150">
-                        <span class="proof-text"><strong>Fitalyze</strong><span>Full-Stack · AI</span></span>
-                        <span class="proof-arrow" aria-hidden="true">→</span>
-                    </a>
-                </li>
-            </ul>
+            <ul class="proof" id="proof" aria-label="Featured projects" data-i18n-label="hero.featured"></ul>
         </div>
-        <a class="scroll-cue" href="#work">Scroll</a>
+        <a class="scroll-cue" href="#work" data-i18n="hero.scroll">Scroll</a>
     </section>
 
     <!-- Projects Section -->
     <section id="work" class="section section--raised">
         <div class="container">
             <header class="section-head reveal">
-                <p class="eyebrow">Projects</p>
-                <h2>Selected work</h2>
-                <p class="section-lead">I like to build my projects with love. Here are some of them:</p>
+                <p class="eyebrow" data-i18n="work.eyebrow">Projects</p>
+                <h2 data-i18n="work.title">Selected work</h2>
+                <p class="section-lead" data-i18n="work.lead">I like to build my projects with love. Here are some of them:</p>
             </header>
 
-            <div class="features">
-                <article class="feature reveal" id="project-sepetix">
-                    <div class="feature-media">
-                        <img src="./assets/projects/shopping_platform.png" alt="Screenshot of Sepetix" width="1389" height="1242" loading="lazy">
-                    </div>
-                    <div class="feature-body">
-                        <p class="meta"><span class="year">2025</span><span class="pill">Full-Stack &amp; DevOps</span></p>
-                        <h3>Sepetix</h3>
-                        <p>Online shopping platform like Amazon, uses microservices architecture, built in Express.js. Has a complete DevOps backbone.</p>
-                        <ul class="chips" aria-label="Technologies"><li>Express.js</li><li>Microservices</li><li>DevOps</li></ul>
-                        <a class="link-arrow" href="https://github.com/TunahanBalci/sepetix" target="_blank" rel="noopener noreferrer" aria-label="View Sepetix on GitHub">View on GitHub <span aria-hidden="true">→</span></a>
-                    </div>
-                </article>
+            <div class="features" id="features"></div>
 
-                <article class="feature reveal" id="project-travela">
-                    <div class="feature-media">
-                        <img src="./assets/projects/travela.png" alt="Screenshot of Travela" width="250" height="228" loading="lazy">
-                    </div>
-                    <div class="feature-body">
-                        <p class="meta"><span class="year">2024</span><span class="pill">Full-Stack</span></p>
-                        <h3>Travela</h3>
-                        <p>The first project that made me feel like a Software Engineer. It's an open source travel planning web application built with ASP.NET</p>
-                        <ul class="chips" aria-label="Technologies"><li>ASP.NET</li><li>Web app</li><li>Open source</li></ul>
-                        <a class="link-arrow" href="https://github.com/TunahanBalci/Travela" target="_blank" rel="noopener noreferrer" aria-label="View Travela on GitHub">View on GitHub <span aria-hidden="true">→</span></a>
-                    </div>
-                </article>
-
-                <article class="feature reveal" id="project-fitalyze">
-                    <div class="feature-media">
-                        <img src="./assets/projects/fitalyze.png" alt="Screenshot of Fitalyze" width="200" height="150" loading="lazy">
-                    </div>
-                    <div class="feature-body">
-                        <p class="meta"><span class="year">2025</span><span class="pill">Full-Stack</span></p>
-                        <h3>Fitalyze - AI Diet App</h3>
-                        <p>My hackhathon project, an open source AI Powered diet planning web application.</p>
-                        <ul class="chips" aria-label="Technologies"><li>AI</li><li>Web app</li><li>Hackathon</li></ul>
-                        <a class="link-arrow" href="https://github.com/TunahanBalci/fitalyze" target="_blank" rel="noopener noreferrer" aria-label="View Fitalyze on GitHub">View on GitHub <span aria-hidden="true">→</span></a>
-                    </div>
-                </article>
-            </div>
-
-            <h3 class="subhead reveal">More projects</h3>
-            <div class="cards">
-                <article class="card reveal">
-                    <img src="./assets/projects/forum_website.png" alt="" width="200" height="182" loading="lazy">
-                    <div class="card-body">
-                        <p class="meta"><span class="year">2025</span><span class="pill">Full-Stack</span></p>
-                        <h4><a href="https://github.com/TunahanBalci/forum-website" target="_blank" rel="noopener noreferrer">Forum Website</a></h4>
-                        <p>Forum app with admin panel, posting, commenting, replying and PM features. Written in PHP &amp; Bootstrap with Apache Server</p>
-                    </div>
-                </article>
-                <article class="card reveal">
-                    <img src="./assets/projects/driver.jpg" alt="" width="960" height="640" loading="lazy">
-                    <div class="card-body">
-                        <p class="meta"><span class="year">2025</span><span class="pill">System Programming</span></p>
-                        <h4><a href="https://github.com/TunahanBalci/casper-g911-linux-driver" target="_blank" rel="noopener noreferrer">Casper G911 Linux Driver</a></h4>
-                        <p>Linux WMI driver patch for Casper Excalibur G911 laptops ensuring compatibility with modern kernels (6.18+).</p>
-                    </div>
-                </article>
-                <article class="card reveal">
-                    <img src="./assets/projects/peer-to-peer.jpg" alt="" width="1062" height="980" loading="lazy">
-                    <div class="card-body">
-                        <p class="meta"><span class="year">2025</span><span class="pill">Networks</span></p>
-                        <h4><a href="https://github.com/TunahanBalci/p2p-network" target="_blank" rel="noopener noreferrer">P2P Network</a></h4>
-                        <p>Serverless P2P chat application prioritizing privacy and security with end-to-end encryption.</p>
-                    </div>
-                </article>
-                <article class="card reveal">
-                    <img src="./assets/projects/order_manager.png" alt="" width="1034" height="780" loading="lazy">
-                    <div class="card-body">
-                        <p class="meta"><span class="year">2025</span><span class="pill">Backend</span></p>
-                        <h4><a href="https://github.com/TunahanBalci/order-manager" target="_blank" rel="noopener noreferrer">Order Manager</a></h4>
-                        <p>Microservices-based Order Management System built with .NET 8 and RabbitMQ.</p>
-                    </div>
-                </article>
-                <article class="card reveal">
-                    <img src="./assets/projects/pdf_merger.png" alt="" width="250" height="292" loading="lazy">
-                    <div class="card-body">
-                        <p class="meta"><span class="year">2025</span><span class="pill">Full-Stack</span></p>
-                        <h4><a href="https://github.com/TunahanBalci/pdf-merger" target="_blank" rel="noopener noreferrer">PDF Merger</a></h4>
-                        <p>A fun serverless project of mine which I created to merge multiple lecture notes to a single file in any order I desire.</p>
-                    </div>
-                </article>
-                <article class="card reveal">
-                    <img src="./assets/projects/machine_learning.jpg" alt="" width="980" height="980" loading="lazy">
-                    <div class="card-body">
-                        <p class="meta"><span class="year">2025</span><span class="pill">Machine Learning</span></p>
-                        <h4><a href="https://github.com/TunahanBalci/creditworthiness-prediction-pipeline" target="_blank" rel="noopener noreferrer">Creditworthiness Prediction Pipeline</a></h4>
-                        <p>A full machine learning pipeline with an API for real-time predictions. Model runs are automated, registered, and logged within MLFlow.</p>
-                    </div>
-                </article>
-                <article class="card reveal">
-                    <img src="./assets/projects/machine_learning.jpg" alt="" width="980" height="980" loading="lazy">
-                    <div class="card-body">
-                        <p class="meta"><span class="year">2025</span><span class="pill">Machine Learning</span></p>
-                        <h4><a href="https://github.com/TunahanBalci/customer-segmentation" target="_blank" rel="noopener noreferrer">Customer Segmentation</a></h4>
-                        <p>An open source project that categorizes customers based on their data regarding behavior and demographics.</p>
-                    </div>
-                </article>
-                <article class="card reveal">
-                    <img src="./assets/projects/machine_learning.jpg" alt="" width="980" height="980" loading="lazy">
-                    <div class="card-body">
-                        <p class="meta"><span class="year">2025</span><span class="pill">Machine Learning</span></p>
-                        <h4><a href="https://github.com/TunahanBalci/spam-mail-classifier" target="_blank" rel="noopener noreferrer">Spam Mail Classifier</a></h4>
-                        <p>An open source project that classifies sent mails as spam or not spam based on used words.</p>
-                    </div>
-                </article>
-            </div>
+            <h3 class="subhead reveal" data-i18n="work.more">More projects</h3>
+            <div class="cards" id="cards"></div>
         </div>
     </section>
 
@@ -202,56 +78,11 @@
     <section id="experience" class="section">
         <div class="container">
             <header class="section-head reveal">
-                <p class="eyebrow">Experience</p>
-                <h2>Professional Experience</h2>
+                <p class="eyebrow" data-i18n="experience.eyebrow">Experience</p>
+                <h2 data-i18n="experience.title">Professional Experience</h2>
             </header>
 
-            <ol class="timeline">
-                <li class="timeline-item reveal">
-                    <p class="timeline-date">Aug 2025 - Aug 2025</p>
-                    <h3>Deep Learning Engineer - Intern</h3>
-                    <p class="timeline-company">Inovako</p>
-                    <ul class="timeline-points">
-                        <li>Researched MLOps platforms and integrated AI models into pipelines</li>
-                        <li>Performed data annotation tasks using CVAT</li>
-                        <li>Trained YOLO deep learning models for various use cases</li>
-                        <li>Created algorithms for surface area detection and automated cropping from segmentation areas</li>
-                    </ul>
-                    <ul class="chips" aria-label="Technologies">
-                        <li>YOLO</li><li>MLOps</li><li>Data Annotation</li><li>Python</li><li>OpenCV</li>
-                    </ul>
-                </li>
-
-                <li class="timeline-item reveal">
-                    <p class="timeline-date">Jun 2025 - Aug 2025</p>
-                    <h3>Machine Learning &amp; DevOps Engineer - Intern</h3>
-                    <p class="timeline-company">TURKSAT</p>
-                    <ul class="timeline-points">
-                        <li>Participated in DevOps processes for E-Government Portal project</li>
-                        <li>Containerized applications with Docker and deployed to Kubernetes</li>
-                        <li>Wrote comprehensive Kubernetes deployment configs. Integrated clusters with Helm charts, Prometheus and Grafana</li>
-                        <li>Implemented secure storage with HashiCorp Vault and Harbor registry</li>
-                        <li>Developed ML pipelines with feature engineering and hyperparameter optimization. Used Random Forest, XGBoost, Logistic Regression with MLFlow integration</li>
-                        <li>Created full-stack microservices e-commerce platform on Kubernetes that uses Kafka for async messaging, Loki centralized logging, comprehensive monitoring</li>
-                    </ul>
-                    <ul class="chips" aria-label="Technologies">
-                        <li>Kubernetes</li><li>Docker</li><li>Helm</li><li>Prometheus</li><li>Grafana</li><li>MLFlow</li><li>Kafka</li><li>Machine Learning</li><li>Python</li>
-                    </ul>
-                </li>
-
-                <li class="timeline-item reveal">
-                    <p class="timeline-date">May 2025 - Jun 2025</p>
-                    <h3>Software Engineer - Intern</h3>
-                    <p class="timeline-company">Edukare Inc.</p>
-                    <ul class="timeline-points">
-                        <li>Developed a full-stack data entry application from scratch</li>
-                        <li>Enabled company IT team and clients to input school/campus data efficiently</li>
-                    </ul>
-                    <ul class="chips" aria-label="Technologies">
-                        <li>.NET Core</li><li>MSSQL Server</li>
-                    </ul>
-                </li>
-            </ol>
+            <ol class="timeline" id="timeline"></ol>
         </div>
     </section>
 
@@ -259,115 +90,29 @@
     <section id="skills" class="section section--raised">
         <div class="container">
             <header class="section-head reveal">
-                <p class="eyebrow">Skills</p>
-                <h2>Tech stack</h2>
-                <p class="section-lead">Programming languages I know, tools I'm using and familiar with.</p>
+                <p class="eyebrow" data-i18n="skills.eyebrow">Skills</p>
+                <h2 data-i18n="skills.title">Tech stack</h2>
+                <p class="section-lead" data-i18n="skills.lead">Programming languages I know, tools I'm using and familiar with.</p>
             </header>
 
-            <div class="stack">
-                <div class="stack-row reveal">
-                    <h3 class="stack-label" id="stack-languages">Languages &amp; frontend</h3>
-                    <div class="marquee" role="group" tabindex="0" aria-labelledby="stack-languages">
-                        <ul class="marquee-track">
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="" width="32" height="32" loading="lazy"><span>Python</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="" width="32" height="32" loading="lazy"><span>JavaScript</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="" width="32" height="32" loading="lazy"><span>TypeScript</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="" width="32" height="32" loading="lazy"><span>C#</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="" width="32" height="32" loading="lazy"><span>Java</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="" width="32" height="32" loading="lazy"><span>PHP</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" alt="" width="32" height="32" loading="lazy"><span>Dart</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="" width="32" height="32" loading="lazy"><span>React</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="" width="32" height="32" loading="lazy"><span>HTML &amp; CSS</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="" width="32" height="32" loading="lazy"><span>Tailwind CSS</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="stack-row reveal">
-                    <h3 class="stack-label" id="stack-backend">Backend &amp; databases</h3>
-                    <div class="marquee" role="group" tabindex="0" data-direction="right" aria-labelledby="stack-backend">
-                        <ul class="marquee-track">
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="" width="32" height="32" loading="lazy"><span>Node.js</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="" width="32" height="32" loading="lazy"><span>Express.js</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg" alt="" width="32" height="32" loading="lazy"><span>.NET Core</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="" width="32" height="32" loading="lazy"><span>Spring Boot</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" alt="" width="32" height="32" loading="lazy"><span>Flask</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="" width="32" height="32" loading="lazy"><span>FastAPI</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/selenium/selenium-original.svg" alt="" width="32" height="32" loading="lazy"><span>Selenium</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg" alt="" width="32" height="32" loading="lazy"><span>Kafka</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rabbitmq/rabbitmq-original.svg" alt="" width="32" height="32" loading="lazy"><span>RabbitMQ</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" alt="" width="32" height="32" loading="lazy"><span>Jest</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/junit/junit-original.svg" alt="" width="32" height="32" loading="lazy"><span>Junit</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="" width="32" height="32" loading="lazy"><span>PostgreSQL</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="" width="32" height="32" loading="lazy"><span>MongoDB</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg" alt="" width="32" height="32" loading="lazy"><span>MSSQL</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="" width="32" height="32" loading="lazy"><span>Firebase</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="stack-row reveal">
-                    <h3 class="stack-label" id="stack-ml">Machine learning &amp; AI</h3>
-                    <div class="marquee" role="group" tabindex="0" aria-labelledby="stack-ml">
-                        <ul class="marquee-track">
-                            <li class="tech"><img src="./assets/logos/yolo.svg" alt="" width="32" height="32" loading="lazy"><span>YOLO</span></li>
-                            <li class="tech"><img src="./assets/logos/cvat.svg" alt="" width="32" height="32" loading="lazy"><span>CVAT</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="" width="32" height="32" loading="lazy"><span>TensorFlow</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" alt="" width="32" height="32" loading="lazy"><span>PyTorch</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg" alt="" width="32" height="32" loading="lazy"><span>OpenCV</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="" width="32" height="32" loading="lazy"><span>Pandas</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" alt="" width="32" height="32" loading="lazy"><span>Scikit-learn</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="" width="32" height="32" loading="lazy"><span>NumPy</span></li>
-                            <li class="tech"><img src="./assets/logos/seaborn.svg" alt="" width="32" height="32" loading="lazy"><span>Seaborn</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/keras/keras-original.svg" alt="" width="32" height="32" loading="lazy"><span>Keras</span></li>
-                            <li class="tech"><img src="./assets/logos/clearml.svg" alt="" width="32" height="32" loading="lazy"><span>ClearML</span></li>
-                            <li class="tech"><img src="./assets/logos/mlflow.svg" alt="" width="32" height="32" loading="lazy"><span>MLFlow</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="stack-row reveal">
-                    <h3 class="stack-label" id="stack-devops">DevOps, cloud &amp; mobile</h3>
-                    <div class="marquee" role="group" tabindex="0" data-direction="right" aria-labelledby="stack-devops">
-                        <ul class="marquee-track">
-                            <li class="tech"><img src="./assets/logos/google_cloud.svg" alt="" width="32" height="32" loading="lazy"><span>Google Cloud</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="" width="32" height="32" loading="lazy"><span>Docker</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" alt="" width="32" height="32" loading="lazy"><span>Kubernetes</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="" width="32" height="32" loading="lazy"><span>Git</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/helm/helm-original.svg" alt="" width="32" height="32" loading="lazy"><span>Helm</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/harbor/harbor-original.svg" alt="" width="32" height="32" loading="lazy"><span>Harbor</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rancher/rancher-original.svg" alt="" width="32" height="32" loading="lazy"><span>Rancher</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prometheus/prometheus-original.svg" alt="" width="32" height="32" loading="lazy"><span>Prometheus</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg" alt="" width="32" height="32" loading="lazy"><span>Grafana</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vault/vault-original.svg" alt="" width="32" height="32" loading="lazy"><span>Vault</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/k3s/k3s-original.svg" alt="" width="32" height="32" loading="lazy"><span>K3S</span></li>
-                            <li class="tech"><img src="./assets/logos/rke.svg" alt="" width="32" height="32" loading="lazy"><span>RKE2</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg" alt="" width="32" height="32" loading="lazy"><span>Jenkins</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg" alt="" width="32" height="32" loading="lazy"><span>Github Actions</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="" width="32" height="32" loading="lazy"><span>Flutter</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg" alt="" width="32" height="32" loading="lazy"><span>Android</span></li>
-                            <li class="tech"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg" alt="" width="32" height="32" loading="lazy"><span>iOS</span></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <div class="stack" id="stack"></div>
         </div>
     </section>
 
     <!-- Contact Section -->
     <section id="contact" class="section">
         <div class="container contact-inner reveal">
-            <p class="eyebrow">Contact</p>
-            <h2 class="contact-title">Let's build something</h2>
+            <p class="eyebrow" data-i18n="contact.eyebrow">Contact</p>
+            <h2 class="contact-title" data-i18n="contact.title">Let's build something</h2>
             <!-- owner: edit this sentence to say what you're open to -->
-            <p class="contact-lead">I'm open to software engineering roles and interesting projects. The fastest way to reach me is email.</p>
-            <a class="contact-email" href="mailto:dev.tunahanbalci@gmail.com">dev.tunahanbalci@gmail.com</a>
+            <p class="contact-lead" data-i18n="contact.lead">I'm open to software engineering roles and interesting projects. The fastest way to reach me is email.</p>
+            <a class="contact-email" href="mailto:dev.tunahanbalci@gmail.com" data-email>dev.tunahanbalci@gmail.com</a>
             <div class="contact-actions">
-                <a class="btn btn-ghost" href="https://www.linkedin.com/in/tunahan-balci-584320318/" target="_blank" rel="noopener noreferrer">
+                <a class="btn btn-ghost" href="https://www.linkedin.com/in/tunahan-balci-584320318/" data-link="linkedin" target="_blank" rel="noopener noreferrer">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                     LinkedIn
                 </a>
-                <a class="btn btn-ghost" href="https://github.com/TunahanBalci" target="_blank" rel="noopener noreferrer">
+                <a class="btn btn-ghost" href="https://github.com/TunahanBalci" data-link="github" target="_blank" rel="noopener noreferrer">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     GitHub
                 </a>
@@ -382,11 +127,11 @@
         <div class="container footer-inner">
             <a class="brand" href="#home">Tunahan BALCI</a>
             <ul class="footer-links">
-                <li><a href="#work">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#work" data-i18n="nav.work">Projects</a></li>
+                <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
+                <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
             </ul>
-            <a class="footer-email" href="mailto:dev.tunahanbalci@gmail.com">dev.tunahanbalci@gmail.com</a>
+            <a class="footer-email" href="mailto:dev.tunahanbalci@gmail.com" data-email>dev.tunahanbalci@gmail.com</a>
             <p>© <span id="year">2026</span> Tunahan Balcı</p>
         </div>
     </footer>

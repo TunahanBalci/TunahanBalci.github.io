@@ -3,16 +3,34 @@
 // Chrome not on PATH as google-chrome?   CHROME=/path/to/chrome node tools/check.mjs
 import { spawn } from 'node:child_process';
 import { existsSync, mkdtempSync, readFileSync, rmSync, statSync } from 'node:fs';
+import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { dirname, extname, join, normalize } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const PAGE = pathToFileURL(join(ROOT, 'index.html')).href;
+const DATA = JSON.parse(readFileSync(join(ROOT, 'data.json'), 'utf8'));
+let PAGE; // set once the server below is listening
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const assert = (ok, message) => { if (!ok) throw new Error(message); };
 const checks = [];
 const check = (name, fn) => checks.push({ name, fn });
+
+// ---------- static server ----------
+// The page fetches data.json, which browsers refuse over file://, so serve the repo like GitHub Pages does.
+const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json',
+  '.png': 'image/png', '.jpg': 'image/jpeg', '.gif': 'image/gif', '.svg': 'image/svg+xml' };
+function serve() {
+  const server = createServer((req, res) => {
+    const file = join(ROOT, normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)));
+    if (!file.startsWith(ROOT) || !existsSync(file) || statSync(file).isDirectory()) return res.writeHead(404).end();
+    res.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' }).end(readFileSync(file));
+  });
+  return new Promise(ok => server.listen(0, '127.0.0.1', () => {
+    PAGE = `http://127.0.0.1:${server.address().port}/index.html`;
+    ok(() => server.close());
+  }));
+}
 
 // ---------- browser plumbing ----------
 let cdp;
@@ -73,17 +91,20 @@ async function js(expression) {
 const viewport = (width, height) =>
   cdp('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
 
-async function load({ width = 1280, height = 900, reducedMotion = false } = {}) {
+// timezone stands in for the visitor's country: Europe/Istanbul gets Turkish.
+async function load({ width = 1280, height = 900, reducedMotion = false, timezone = 'America/New_York' } = {}) {
   await viewport(width, height);
   await cdp('Emulation.setEmulatedMedia', {
     features: [{ name: 'prefers-reduced-motion', value: reducedMotion ? 'reduce' : 'no-preference' }],
   });
+  await cdp('Emulation.setTimezoneOverride', { timezoneId: timezone });
   events = [];
   // window 'load': the experience section no longer has an onerror fallback to a dead
   // placeholder image host, so all local resources resolve promptly and 'load' fires normally.
   const loaded = new Promise(done => waiters.push({ method: 'Page.loadEventFired', done }));
   await cdp('Page.navigate', { url: `${PAGE}?run=${++loads}` }); // query forces a full load every time
   await loaded;
+  for (let i = 0; i < 50 && !(await js(`document.documentElement.classList.contains('is-loaded')`)); i++) await sleep(50);
   await sleep(150);
 }
 
@@ -277,7 +298,9 @@ check('nav: an open menu closes when the viewport grows to desktop', async () =>
 });
 
 // ---------- hero ----------
-check('hero: name, one-sentence lead, two actions, three proof tiles', async () => {
+const featuredIds = DATA.projects.filter(p => p.featured).map(p => `project-${p.id}`);
+
+check('hero: name, one-sentence lead, two actions, a proof tile per featured project', async () => {
   await load();
   const h = await js(`({
     h1: document.querySelector('#home h1')?.textContent.trim(),
@@ -287,7 +310,7 @@ check('hero: name, one-sentence lead, two actions, three proof tiles', async () 
   assert(h.h1 === 'Tunahan Balcı', `h1 is ${h.h1}`);
   assert(h.lead === "I don't see myself as just a Software Engineer, but as a problem solver.", `lead is ${h.lead}`);
   assert(h.actions === '#work,#contact', `actions: ${h.actions}`);
-  assert(h.tiles === '#project-sepetix,#project-travela,#project-fitalyze', `tiles: ${h.tiles}`);
+  assert(h.tiles === featuredIds.map(id => `#${id}`).join(), `tiles: ${h.tiles}`);
 });
 
 for (const [width, height] of [[375, 640], [1280, 600], [1280, 900]]) {
@@ -308,16 +331,16 @@ check('hero: scroll cue fades once the page scrolls', async () => {
 });
 
 // ---------- projects ----------
-check('projects: three featured cards then eight compact cards, all linking to GitHub', async () => {
+check('projects: featured then compact cards as listed in data.json, all linking to GitHub', async () => {
   await load();
   const p = await js(`({
     features: [...document.querySelectorAll('#work .feature')].map(f => f.id).join(),
     cards: document.querySelectorAll('#work .card').length,
     links: [...document.querySelectorAll('#work .feature a, #work .card a')].map(a => a.href) })`);
-  assert(p.features === 'project-sepetix,project-travela,project-fitalyze', `featured ids: ${p.features}`);
-  assert(p.cards === 8, `expected 8 compact cards, got ${p.cards}`);
-  assert(p.links.length === 11 && p.links.every(h => h.startsWith('https://github.com/TunahanBalci/')),
-    `expected 11 GitHub links, got ${p.links.length}`);
+  assert(p.features === featuredIds.join(), `featured ids: ${p.features}`);
+  assert(p.cards === DATA.projects.length - featuredIds.length, `got ${p.cards} compact cards`);
+  assert(p.links.length === DATA.projects.length && p.links.every(h => h.startsWith('https://github.com/TunahanBalci/')),
+    `expected ${DATA.projects.length} GitHub links, got ${p.links.length}`);
 });
 
 check('projects: every image has width, height and lazy loading', async () => {
@@ -353,13 +376,13 @@ check('reveal: content stays visible when JavaScript does not run', async () => 
 });
 
 // ---------- experience ----------
-check('experience: three entries with the same parts and real bullet lists', async () => {
+check('experience: an entry per data.json item, each with the same parts and real bullet lists', async () => {
   await load();
   const entries = await js(`[...document.querySelectorAll('#experience .timeline-item')].map(i => ({
     date: !!i.querySelector('.timeline-date'), role: !!i.querySelector('h3'),
     company: !!i.querySelector('.timeline-company'),
     points: i.querySelectorAll('.timeline-points li').length, chips: i.querySelectorAll('.chips li').length }))`);
-  assert(entries.length === 3, `expected 3 entries, got ${entries.length}`);
+  assert(entries.length === DATA.experience.length, `expected ${DATA.experience.length} entries, got ${entries.length}`);
   entries.forEach((e, n) => assert(e.date && e.role && e.company && e.points > 0 && e.chips > 0,
     `entry ${n + 1} is missing a part: ${JSON.stringify(e)}`));
   assert(!(await js(`document.getElementById('experience').innerHTML.includes('•')`)), 'typed bullet characters remain');
@@ -380,14 +403,16 @@ check('experience: marker turns cyan once its entry is in view', async () => {
 });
 
 // ---------- skills ----------
-check('skills: four labelled strips holding all 54 tools once', async () => {
+const toolCount = DATA.skills.flatMap(s => s.tools).length;
+check('skills: a labelled strip per data.json group, holding every tool once', async () => {
   await load();
   const s = await js(`({
     strips: document.querySelectorAll('#skills .marquee').length,
     tools: [...document.querySelectorAll('#skills .marquee-track:not([aria-hidden]) .tech')].map(t => t.textContent.trim()),
     labelled: [...document.querySelectorAll('#skills .marquee')].every(m => document.getElementById(m.getAttribute('aria-labelledby') || '-')) })`);
-  assert(s.strips === 4, `expected 4 strips, got ${s.strips}`);
-  assert(s.tools.length === 54 && new Set(s.tools).size === 54, `expected 54 unique tools, got ${s.tools.length} (${new Set(s.tools).size} unique)`);
+  assert(s.strips === DATA.skills.length, `expected ${DATA.skills.length} strips, got ${s.strips}`);
+  assert(s.tools.length === toolCount && new Set(s.tools).size === toolCount,
+    `expected ${toolCount} unique tools, got ${s.tools.length} (${new Set(s.tools).size} unique)`);
   assert(s.labelled, 'a strip is not labelled by a visible heading');
 });
 
@@ -428,6 +453,76 @@ check('footer: only live links, the real email and the current year', async () =
   assert(hrefs.includes('mailto:dev.tunahanbalci@gmail.com'), 'real email missing');
   assert(!(await js(`document.documentElement.outerHTML.includes('hello@example.com')`)), 'placeholder email remains');
   assert(await js(`document.getElementById('year')?.textContent`) === String(new Date().getFullYear()), 'year is not current');
+});
+
+// ---------- language ----------
+const lang = `({ lang: document.documentElement.lang, nav: document.querySelector('#nav-menu a[href="#work"]').textContent,
+  lead: document.querySelector('.hero-lead').textContent, date: document.querySelector('.timeline-date').textContent,
+  toggle: document.getElementById('lang-toggle').textContent, title: document.title })`;
+
+check('lang: every localized value in data.json has both English and Turkish', () => {
+  const missing = [];
+  const walk = (v, path) => {
+    if (!v || typeof v !== 'object') return;
+    if ('en' in v || 'tr' in v) {
+      if (!('en' in v && 'tr' in v)) missing.push(path);
+      return;
+    }
+    Object.entries(v).forEach(([k, x]) => walk(x, `${path}.${k}`));
+  };
+  walk({ ...DATA, ui: undefined }, 'data');
+  const [en, tr] = [Object.keys(DATA.ui.en), Object.keys(DATA.ui.tr)];
+  en.filter(k => !tr.includes(k)).forEach(k => missing.push(`ui.tr.${k}`));
+  tr.filter(k => !en.includes(k)).forEach(k => missing.push(`ui.en.${k}`));
+  assert(missing.length === 0, `missing: ${missing.join(', ')}`);
+});
+
+check('lang: every data-i18n key in the page exists in data.json', () => {
+  const html = readFileSync(join(ROOT, 'index.html'), 'utf8');
+  const keys = [...html.matchAll(/data-i18n(?:-label)?="([^"]+)"/g)].map(m => m[1]);
+  const missing = keys.filter(k => !(k in DATA.ui.en));
+  assert(keys.length > 10 && missing.length === 0, `missing keys: ${missing.join(', ')}`);
+});
+
+check('lang: visitors outside Turkey get English', async () => {
+  await load({ timezone: 'Europe/Berlin' });
+  const s = await js(lang);
+  assert(s.lang === 'en' && s.nav === 'Projects' && s.lead === DATA.ui.en['hero.lead'], JSON.stringify(s));
+  assert(s.date.startsWith('Aug 2025') && s.toggle === 'TR' && s.title === DATA.ui.en.title, JSON.stringify(s));
+});
+
+check('lang: visitors in Turkey get Turkish', async () => {
+  await load({ timezone: 'Europe/Istanbul' });
+  const s = await js(lang);
+  assert(s.lang === 'tr' && s.nav === 'Projeler' && s.lead === DATA.ui.tr['hero.lead'], JSON.stringify(s));
+  assert(s.date.startsWith('Ağu 2025') && s.toggle === 'EN' && s.title === DATA.ui.tr.title, JSON.stringify(s));
+});
+
+check('lang: the toggle switches everything and the choice survives a reload', async () => {
+  await load({ timezone: 'Europe/Istanbul' });
+  try {
+    const before = await js(`document.querySelectorAll('#work article, #skills .tech').length`);
+    await js(`document.getElementById('lang-toggle').click()`);
+    let s = await js(lang);
+    assert(s.lang === 'en' && s.nav === 'Projects' && s.toggle === 'TR', `after click: ${JSON.stringify(s)}`);
+    assert(await js(`document.querySelectorAll('#work article, #skills .tech').length`) === before, 'content count changed');
+    await load({ timezone: 'Europe/Istanbul' });
+    s = await js(lang);
+    assert(s.lang === 'en', `after reload in Turkey: ${s.lang}`);
+  } finally {
+    await js(`localStorage.removeItem('lang')`);
+  }
+});
+
+check('lang: a deep link lands on content rendered from data.json', async () => {
+  await viewport(1280, 900);
+  events = [];
+  const loaded = new Promise(done => waiters.push({ method: 'Page.loadEventFired', done }));
+  await cdp('Page.navigate', { url: `${PAGE}?run=${++loads}#experience` });
+  await loaded;
+  await sleep(600);
+  const top = await js(`document.getElementById('experience').getBoundingClientRect().top`);
+  assert(Math.abs(top - 68) < 4, `#experience is at ${top}px, expected just under the 68px bar`);
 });
 
 // ---------- whole page ----------
@@ -478,6 +573,7 @@ check('page: reduced motion stops every continuous animation', async () => {
 });
 
 // ---------- run ----------
+const stop = await serve();
 const close = await launch();
 let failed = 0;
 try {
@@ -492,6 +588,7 @@ try {
   }
 } finally {
   close();
+  stop();
 }
 console.log(`\n${checks.length - failed}/${checks.length} checks passed`);
 process.exit(failed ? 1 : 0);

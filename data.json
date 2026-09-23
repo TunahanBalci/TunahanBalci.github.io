@@ -1,0 +1,356 @@
+{
+  "contact": {
+    "email": "dev.tunahanbalci@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/tunahan-balci-584320318/",
+    "github": "https://github.com/TunahanBalci"
+  },
+
+  "ui": {
+    "en": {
+      "title": "Tunahan BALCI | Software Engineer",
+      "switchLang": "Türkçe'ye geç",
+      "menuOpen": "Open menu",
+      "menuClose": "Close menu",
+      "nav.home": "Home",
+      "nav.work": "Projects",
+      "nav.experience": "Experience",
+      "nav.skills": "Skills",
+      "nav.contact": "Contact",
+      "hero.eyebrow": "Software Engineer",
+      "hero.lead": "I don't see myself as just a Software Engineer, but as a problem solver.",
+      "hero.viewProjects": "View projects",
+      "hero.getInTouch": "Get in touch",
+      "hero.featured": "Featured projects",
+      "hero.scroll": "Scroll",
+      "work.eyebrow": "Projects",
+      "work.title": "Selected work",
+      "work.lead": "I like to build my projects with love. Here are some of them:",
+      "work.more": "More projects",
+      "work.github": "View on GitHub",
+      "work.githubLabel": "View {name} on GitHub",
+      "work.screenshot": "Screenshot of {name}",
+      "technologies": "Technologies",
+      "experience.eyebrow": "Experience",
+      "experience.title": "Professional Experience",
+      "skills.eyebrow": "Skills",
+      "skills.title": "Tech stack",
+      "skills.lead": "Programming languages I know, tools I'm using and familiar with.",
+      "contact.eyebrow": "Contact",
+      "contact.title": "Let's build something",
+      "contact.lead": "I'm open to software engineering roles and interesting projects. The fastest way to reach me is email."
+    },
+    "tr": {
+      "title": "Tunahan BALCI | Yazılım Mühendisi",
+      "switchLang": "Switch to English",
+      "menuOpen": "Menüyü aç",
+      "menuClose": "Menüyü kapat",
+      "nav.home": "Ana Sayfa",
+      "nav.work": "Projeler",
+      "nav.experience": "Deneyim",
+      "nav.skills": "Yetenekler",
+      "nav.contact": "İletişim",
+      "hero.eyebrow": "Yazılım Mühendisi",
+      "hero.lead": "Kendimi sadece bir Yazılım Mühendisi olarak değil, bir problem çözücü olarak görüyorum.",
+      "hero.viewProjects": "Projeleri gör",
+      "hero.getInTouch": "İletişime geç",
+      "hero.featured": "Öne çıkan projeler",
+      "hero.scroll": "Kaydır",
+      "work.eyebrow": "Projeler",
+      "work.title": "Seçili çalışmalar",
+      "work.lead": "Projelerimi severek geliştiriyorum. İşte bazıları:",
+      "work.more": "Diğer projeler",
+      "work.github": "GitHub'da gör",
+      "work.githubLabel": "GitHub'da gör: {name}",
+      "work.screenshot": "{name} ekran görüntüsü",
+      "technologies": "Teknolojiler",
+      "experience.eyebrow": "Deneyim",
+      "experience.title": "Profesyonel Deneyim",
+      "skills.eyebrow": "Yetenekler",
+      "skills.title": "Teknolojiler",
+      "skills.lead": "Bildiğim programlama dilleri, kullandığım ve aşina olduğum araçlar.",
+      "contact.eyebrow": "İletişim",
+      "contact.title": "Birlikte bir şeyler geliştirelim",
+      "contact.lead": "Yazılım mühendisliği pozisyonlarına ve ilginç projelere açığım. Bana ulaşmanın en hızlı yolu e-posta."
+    }
+  },
+
+  "projects": [
+    {
+      "id": "sepetix",
+      "featured": true,
+      "title": "Sepetix",
+      "year": 2025,
+      "category": "Full-Stack & DevOps",
+      "tagline": "Full-Stack & DevOps",
+      "description": {
+        "en": "Online shopping platform like Amazon, uses microservices architecture, built in Express.js. Has a complete DevOps backbone.",
+        "tr": "Amazon benzeri, mikroservis mimarisiyle Express.js üzerinde geliştirilmiş bir çevrimiçi alışveriş platformu. Eksiksiz bir DevOps altyapısına sahip."
+      },
+      "tags": ["Express.js", { "en": "Microservices", "tr": "Mikroservisler" }, "DevOps"],
+      "image": { "src": "./assets/projects/shopping_platform.png", "width": 1389, "height": 1242 },
+      "url": "https://github.com/TunahanBalci/sepetix"
+    },
+    {
+      "id": "travela",
+      "featured": true,
+      "title": "Travela",
+      "year": 2024,
+      "category": "Full-Stack",
+      "tagline": "Full-Stack · ASP.NET",
+      "description": {
+        "en": "The first project that made me feel like a Software Engineer. It's an open source travel planning web application built with ASP.NET",
+        "tr": "Kendimi ilk kez bir Yazılım Mühendisi gibi hissettiren proje. ASP.NET ile geliştirilmiş açık kaynaklı bir seyahat planlama web uygulaması."
+      },
+      "tags": ["ASP.NET", { "en": "Web app", "tr": "Web uygulaması" }, { "en": "Open source", "tr": "Açık kaynak" }],
+      "image": { "src": "./assets/projects/travela.png", "width": 250, "height": 228 },
+      "url": "https://github.com/TunahanBalci/Travela"
+    },
+    {
+      "id": "fitalyze",
+      "featured": true,
+      "title": { "en": "Fitalyze - AI Diet App", "tr": "Fitalyze - Yapay Zekâ Diyet Uygulaması" },
+      "shortTitle": "Fitalyze",
+      "year": 2025,
+      "category": "Full-Stack",
+      "tagline": { "en": "Full-Stack · AI", "tr": "Full-Stack · Yapay Zekâ" },
+      "description": {
+        "en": "My hackathon project, an open source AI Powered diet planning web application.",
+        "tr": "Hackathon projem: yapay zekâ destekli, açık kaynaklı bir diyet planlama web uygulaması."
+      },
+      "tags": [{ "en": "AI", "tr": "Yapay Zekâ" }, { "en": "Web app", "tr": "Web uygulaması" }, "Hackathon"],
+      "image": { "src": "./assets/projects/fitalyze.png", "width": 200, "height": 150 },
+      "url": "https://github.com/TunahanBalci/fitalyze"
+    },
+    {
+      "title": { "en": "Forum Website", "tr": "Forum Sitesi" },
+      "year": 2025,
+      "category": "Full-Stack",
+      "description": {
+        "en": "Forum app with admin panel, posting, commenting, replying and PM features. Written in PHP & Bootstrap with Apache Server",
+        "tr": "Yönetim paneli, gönderi, yorum, yanıt ve özel mesaj özelliklerine sahip forum uygulaması. Apache sunucusu üzerinde PHP ve Bootstrap ile yazıldı."
+      },
+      "image": { "src": "./assets/projects/forum_website.png", "width": 200, "height": 182 },
+      "url": "https://github.com/TunahanBalci/forum-website"
+    },
+    {
+      "title": { "en": "Casper G911 Linux Driver", "tr": "Casper G911 Linux Sürücüsü" },
+      "year": 2025,
+      "category": { "en": "System Programming", "tr": "Sistem Programlama" },
+      "description": {
+        "en": "Linux WMI driver patch for Casper Excalibur G911 laptops ensuring compatibility with modern kernels (6.18+).",
+        "tr": "Casper Excalibur G911 dizüstü bilgisayarlar için modern çekirdeklerle (6.18+) uyumluluğu sağlayan Linux WMI sürücü yaması."
+      },
+      "image": { "src": "./assets/projects/driver.jpg", "width": 960, "height": 640 },
+      "url": "https://github.com/TunahanBalci/casper-g911-linux-driver"
+    },
+    {
+      "title": { "en": "P2P Network", "tr": "P2P Ağı" },
+      "year": 2025,
+      "category": { "en": "Networks", "tr": "Ağlar" },
+      "description": {
+        "en": "Serverless P2P chat application prioritizing privacy and security with end-to-end encryption.",
+        "tr": "Uçtan uca şifrelemeyle gizlilik ve güvenliği ön planda tutan sunucusuz P2P sohbet uygulaması."
+      },
+      "image": { "src": "./assets/projects/peer-to-peer.jpg", "width": 1062, "height": 980 },
+      "url": "https://github.com/TunahanBalci/p2p-network"
+    },
+    {
+      "title": { "en": "Order Manager", "tr": "Sipariş Yöneticisi" },
+      "year": 2025,
+      "category": "Backend",
+      "description": {
+        "en": "Microservices-based Order Management System built with .NET 8 and RabbitMQ.",
+        "tr": ".NET 8 ve RabbitMQ ile geliştirilmiş, mikroservis tabanlı sipariş yönetim sistemi."
+      },
+      "image": { "src": "./assets/projects/order_manager.png", "width": 1034, "height": 780 },
+      "url": "https://github.com/TunahanBalci/order-manager"
+    },
+    {
+      "title": { "en": "PDF Merger", "tr": "PDF Birleştirici" },
+      "year": 2025,
+      "category": "Full-Stack",
+      "description": {
+        "en": "A fun serverless project of mine which I created to merge multiple lecture notes to a single file in any order I desire.",
+        "tr": "Birden fazla ders notunu istediğim sırayla tek bir dosyada birleştirmek için yaptığım eğlenceli, sunucusuz bir proje."
+      },
+      "image": { "src": "./assets/projects/pdf_merger.png", "width": 250, "height": 292 },
+      "url": "https://github.com/TunahanBalci/pdf-merger"
+    },
+    {
+      "title": { "en": "Creditworthiness Prediction Pipeline", "tr": "Kredi Değerliliği Tahmin Hattı" },
+      "year": 2025,
+      "category": { "en": "Machine Learning", "tr": "Makine Öğrenmesi" },
+      "description": {
+        "en": "A full machine learning pipeline with an API for real-time predictions. Model runs are automated, registered, and logged within MLFlow.",
+        "tr": "Gerçek zamanlı tahminler için API'ye sahip eksiksiz bir makine öğrenmesi hattı. Model çalıştırmaları MLFlow içinde otomatikleştirilir, kaydedilir ve loglanır."
+      },
+      "image": { "src": "./assets/projects/machine_learning.jpg", "width": 980, "height": 980 },
+      "url": "https://github.com/TunahanBalci/creditworthiness-prediction-pipeline"
+    },
+    {
+      "title": { "en": "Customer Segmentation", "tr": "Müşteri Segmentasyonu" },
+      "year": 2025,
+      "category": { "en": "Machine Learning", "tr": "Makine Öğrenmesi" },
+      "description": {
+        "en": "An open source project that categorizes customers based on their data regarding behavior and demographics.",
+        "tr": "Müşterileri davranış ve demografik verilerine göre kategorilere ayıran açık kaynaklı bir proje."
+      },
+      "image": { "src": "./assets/projects/machine_learning.jpg", "width": 980, "height": 980 },
+      "url": "https://github.com/TunahanBalci/customer-segmentation"
+    },
+    {
+      "title": { "en": "Spam Mail Classifier", "tr": "Spam E-posta Sınıflandırıcı" },
+      "year": 2025,
+      "category": { "en": "Machine Learning", "tr": "Makine Öğrenmesi" },
+      "description": {
+        "en": "An open source project that classifies sent mails as spam or not spam based on used words.",
+        "tr": "Gönderilen e-postaları kullanılan kelimelere göre spam olup olmadığına göre sınıflandıran açık kaynaklı bir proje."
+      },
+      "image": { "src": "./assets/projects/machine_learning.jpg", "width": 980, "height": 980 },
+      "url": "https://github.com/TunahanBalci/spam-mail-classifier"
+    }
+  ],
+
+  "experience": [
+    {
+      "start": "2025-08",
+      "end": "2025-08",
+      "role": { "en": "Deep Learning Engineer - Intern", "tr": "Derin Öğrenme Mühendisi - Stajyer" },
+      "company": "Inovako",
+      "points": {
+        "en": [
+          "Researched MLOps platforms and integrated AI models into pipelines",
+          "Performed data annotation tasks using CVAT",
+          "Trained YOLO deep learning models for various use cases",
+          "Created algorithms for surface area detection and automated cropping from segmentation areas"
+        ],
+        "tr": [
+          "MLOps platformlarını araştırdım ve yapay zekâ modellerini iş akışlarına entegre ettim",
+          "CVAT ile veri etiketleme çalışmaları yaptım",
+          "Farklı kullanım senaryoları için YOLO derin öğrenme modelleri eğittim",
+          "Yüzey alanı tespiti ve segmentasyon alanlarından otomatik kırpma için algoritmalar geliştirdim"
+        ]
+      },
+      "tags": ["YOLO", "MLOps", { "en": "Data Annotation", "tr": "Veri Etiketleme" }, "Python", "OpenCV"]
+    },
+    {
+      "start": "2025-06",
+      "end": "2025-08",
+      "role": { "en": "Machine Learning & DevOps Engineer - Intern", "tr": "Makine Öğrenmesi & DevOps Mühendisi - Stajyer" },
+      "company": "TURKSAT",
+      "points": {
+        "en": [
+          "Participated in DevOps processes for E-Government Portal project",
+          "Containerized applications with Docker and deployed to Kubernetes",
+          "Wrote comprehensive Kubernetes deployment configs. Integrated clusters with Helm charts, Prometheus and Grafana",
+          "Implemented secure storage with HashiCorp Vault and Harbor registry",
+          "Developed ML pipelines with feature engineering and hyperparameter optimization. Used Random Forest, XGBoost, Logistic Regression with MLFlow integration",
+          "Created full-stack microservices e-commerce platform on Kubernetes that uses Kafka for async messaging, Loki centralized logging, comprehensive monitoring"
+        ],
+        "tr": [
+          "e-Devlet Kapısı projesinin DevOps süreçlerinde yer aldım",
+          "Uygulamaları Docker ile konteynerleştirip Kubernetes'e dağıttım",
+          "Kapsamlı Kubernetes dağıtım yapılandırmaları yazdım. Kümeleri Helm chart'ları, Prometheus ve Grafana ile entegre ettim",
+          "HashiCorp Vault ve Harbor registry ile güvenli depolama kurdum",
+          "Özellik mühendisliği ve hiperparametre optimizasyonu içeren ML hatları geliştirdim. MLFlow entegrasyonuyla Random Forest, XGBoost ve Logistic Regression kullandım",
+          "Kubernetes üzerinde asenkron mesajlaşma için Kafka, merkezi loglama için Loki ve kapsamlı izleme kullanan full-stack mikroservis e-ticaret platformu geliştirdim"
+        ]
+      },
+      "tags": ["Kubernetes", "Docker", "Helm", "Prometheus", "Grafana", "MLFlow", "Kafka", { "en": "Machine Learning", "tr": "Makine Öğrenmesi" }, "Python"]
+    },
+    {
+      "start": "2025-05",
+      "end": "2025-06",
+      "role": { "en": "Software Engineer - Intern", "tr": "Yazılım Mühendisi - Stajyer" },
+      "company": "Edukare Inc.",
+      "points": {
+        "en": [
+          "Developed a full-stack data entry application from scratch",
+          "Enabled company IT team and clients to input school/campus data efficiently"
+        ],
+        "tr": [
+          "Sıfırdan full-stack bir veri giriş uygulaması geliştirdim",
+          "Şirketin BT ekibinin ve müşterilerin okul/kampüs verilerini verimli şekilde girmesini sağladım"
+        ]
+      },
+      "tags": [".NET Core", "MSSQL Server"]
+    }
+  ],
+
+  "skills": [
+    {
+      "label": { "en": "Languages & frontend", "tr": "Diller & frontend" },
+      "tools": [
+        { "name": "Python", "icon": "devicon:python/python-original" },
+        { "name": "JavaScript", "icon": "devicon:javascript/javascript-original" },
+        { "name": "TypeScript", "icon": "devicon:typescript/typescript-original" },
+        { "name": "C#", "icon": "devicon:csharp/csharp-original" },
+        { "name": "Java", "icon": "devicon:java/java-original" },
+        { "name": "PHP", "icon": "devicon:php/php-original" },
+        { "name": "Dart", "icon": "devicon:dart/dart-original" },
+        { "name": "React", "icon": "devicon:react/react-original" },
+        { "name": "HTML & CSS", "icon": "devicon:html5/html5-original" },
+        { "name": "Tailwind CSS", "icon": "devicon:tailwindcss/tailwindcss-original" }
+      ]
+    },
+    {
+      "label": { "en": "Backend & databases", "tr": "Backend & veritabanları" },
+      "tools": [
+        { "name": "Node.js", "icon": "devicon:nodejs/nodejs-original" },
+        { "name": "Express.js", "icon": "devicon:express/express-original" },
+        { "name": ".NET Core", "icon": "devicon:dotnetcore/dotnetcore-original" },
+        { "name": "Spring Boot", "icon": "devicon:spring/spring-original" },
+        { "name": "Flask", "icon": "devicon:flask/flask-original" },
+        { "name": "FastAPI", "icon": "devicon:fastapi/fastapi-original" },
+        { "name": "Selenium", "icon": "devicon:selenium/selenium-original" },
+        { "name": "Kafka", "icon": "devicon:apachekafka/apachekafka-original" },
+        { "name": "RabbitMQ", "icon": "devicon:rabbitmq/rabbitmq-original" },
+        { "name": "Jest", "icon": "devicon:jest/jest-plain" },
+        { "name": "Junit", "icon": "devicon:junit/junit-original" },
+        { "name": "PostgreSQL", "icon": "devicon:postgresql/postgresql-original" },
+        { "name": "MongoDB", "icon": "devicon:mongodb/mongodb-original" },
+        { "name": "MSSQL", "icon": "devicon:microsoftsqlserver/microsoftsqlserver-plain" },
+        { "name": "Firebase", "icon": "devicon:firebase/firebase-plain" }
+      ]
+    },
+    {
+      "label": { "en": "Machine learning & AI", "tr": "Makine öğrenmesi & yapay zekâ" },
+      "tools": [
+        { "name": "YOLO", "icon": "./assets/logos/yolo.svg" },
+        { "name": "CVAT", "icon": "./assets/logos/cvat.svg" },
+        { "name": "TensorFlow", "icon": "devicon:tensorflow/tensorflow-original" },
+        { "name": "PyTorch", "icon": "devicon:pytorch/pytorch-original" },
+        { "name": "OpenCV", "icon": "devicon:opencv/opencv-original" },
+        { "name": "Pandas", "icon": "devicon:pandas/pandas-original" },
+        { "name": "Scikit-learn", "icon": "devicon:scikitlearn/scikitlearn-original" },
+        { "name": "NumPy", "icon": "devicon:numpy/numpy-original" },
+        { "name": "Seaborn", "icon": "./assets/logos/seaborn.svg" },
+        { "name": "Keras", "icon": "devicon:keras/keras-original" },
+        { "name": "ClearML", "icon": "./assets/logos/clearml.svg" },
+        { "name": "MLFlow", "icon": "./assets/logos/mlflow.svg" }
+      ]
+    },
+    {
+      "label": { "en": "DevOps, cloud & mobile", "tr": "DevOps, bulut & mobil" },
+      "tools": [
+        { "name": "Google Cloud", "icon": "./assets/logos/google_cloud.svg" },
+        { "name": "Docker", "icon": "devicon:docker/docker-original" },
+        { "name": "Kubernetes", "icon": "devicon:kubernetes/kubernetes-plain" },
+        { "name": "Git", "icon": "devicon:git/git-original" },
+        { "name": "Helm", "icon": "devicon:helm/helm-original" },
+        { "name": "Harbor", "icon": "devicon:harbor/harbor-original" },
+        { "name": "Rancher", "icon": "devicon:rancher/rancher-original" },
+        { "name": "Prometheus", "icon": "devicon:prometheus/prometheus-original" },
+        { "name": "Grafana", "icon": "devicon:grafana/grafana-original" },
+        { "name": "Vault", "icon": "devicon:vault/vault-original" },
+        { "name": "K3S", "icon": "devicon:k3s/k3s-original" },
+        { "name": "RKE2", "icon": "./assets/logos/rke.svg" },
+        { "name": "Jenkins", "icon": "devicon:jenkins/jenkins-original" },
+        { "name": "Github Actions", "icon": "devicon:githubactions/githubactions-original" },
+        { "name": "Flutter", "icon": "devicon:flutter/flutter-original" },
+        { "name": "Android", "icon": "devicon:android/android-original" },
+        { "name": "iOS", "icon": "devicon:apple/apple-original" }
+      ]
+    }
+  ]
+}

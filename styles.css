@@ -179,12 +179,30 @@ main { position: relative; z-index: 1; }
 }
 .is-scrolled .site-nav::before { opacity: 1; }
 
-.nav-inner { position: relative; display: flex; align-items: center; justify-content: space-between; height: var(--nav-h); }
-.brand { color: var(--gold); font-weight: 800; letter-spacing: -0.01em; }
+.nav-inner { position: relative; display: flex; align-items: center; gap: 24px; height: var(--nav-h); }
+.brand { margin-right: auto; color: var(--gold); font-weight: 800; letter-spacing: -0.01em; }
 .nav-links { display: flex; gap: 32px; }
 .nav-links a { color: var(--text-muted); font-size: 0.9375rem; font-weight: 500; transition: color 0.2s var(--ease); }
 .nav-links a:hover { color: var(--text); }
 .nav-links a[aria-current="page"] { color: var(--accent); }
+
+/* Sits above the open mobile panel, like the menu toggle. */
+.lang-toggle {
+    position: relative;
+    z-index: 2;
+    min-width: 44px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.lang-toggle[hidden] { display: none; }
 
 .nav-toggle { display: none; position: relative; z-index: 2; width: 44px; height: 44px; margin-right: -10px; place-content: center; gap: 6px; }
 .nav-toggle span { display: block; width: 22px; height: 2px; border-radius: 2px; background: var(--text); transition: transform 0.3s var(--ease); }
@@ -195,7 +213,7 @@ main { position: relative; z-index: 1; }
 @media (max-width: 767px) {
     /* Without JS the toggle is dead and there's nothing to open the panel, so both stay
        scoped to .js: no JS means the links show as a plain wrapped row instead. */
-    .js .nav-toggle { display: grid; }
+    .js .nav-toggle { display: grid; order: 1; }
     .js .nav-links {
         position: fixed;
         inset: 0;
@@ -219,6 +237,10 @@ main { position: relative; z-index: 1; }
     }
     html:not(.js) .nav-links { flex-wrap: wrap; justify-content: center; row-gap: 12px; }
 }
+
+/* Content comes from data.json. Hold the page back until it is rendered so the language
+   and layout don't visibly change after first paint. Only with JS, so no-JS still shows the shell. */
+.js:not(.is-loaded) body > :not(.sky) { visibility: hidden; }
 
 /* ============ Hero ============ */
 .hero {
