@@ -43,10 +43,16 @@ function initNav() {
         root.classList.toggle('menu-open', open);
         toggle.setAttribute('aria-expanded', open);
         toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        document.querySelector('main').inert = open;
+        document.querySelector('.site-footer').inert = open;
     };
     toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
     links.forEach(a => a.addEventListener('click', () => setMenu(false)));
-    addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+    addEventListener('keydown', e => {
+        if (e.key !== 'Escape' || toggle.getAttribute('aria-expanded') !== 'true') return;
+        setMenu(false);
+        toggle.focus();
+    });
     matchMedia('(min-width: 768px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
 
     // A thin band across the middle of the viewport decides which section is current.
@@ -100,6 +106,7 @@ function initYear() {
 }
 
 // ---------- start ----------
+setTimeout(() => document.documentElement.classList.add('is-ready'));
 initSky();
 initMeteor();
 initNav();

@@ -41,12 +41,17 @@ async function launch() {
   const pending = new Map();
   ws.onmessage = ({ data }) => {
     const msg = JSON.parse(data);
-    if (msg.id) { pending.get(msg.id)?.(msg.result ?? { error: msg.error }); pending.delete(msg.id); return; }
+    if (msg.id) {
+      const p = pending.get(msg.id);
+      if (p) msg.error ? p.reject(new Error(msg.error.message)) : p.resolve(msg.result);
+      pending.delete(msg.id);
+      return;
+    }
     events.push(msg);
     waiters = waiters.filter(w => (w.method === msg.method ? (w.done(msg), false) : true));
   };
-  cdp = (method, params = {}) => new Promise(done => {
-    pending.set(++id, done);
+  cdp = (method, params = {}) => new Promise((resolve, reject) => {
+    pending.set(++id, { resolve, reject });
     ws.send(JSON.stringify({ id, method, params }));
   });
   await cdp('Page.enable');
@@ -236,6 +241,30 @@ check('nav: mobile menu covers the screen, locks scroll, closes on Escape and on
   await js(`document.querySelector('.nav-toggle').click()`);
   await js(`document.querySelector('#nav-menu a[href="#skills"]').click()`);
   assert(!(await js(menuOpen)), 'clicking a link did not close the menu');
+});
+
+check('nav: open mobile menu is modal (main inert) and Escape returns focus to the toggle', async () => {
+  await load({ width: 375, height: 812, reducedMotion: true });
+  await js(`document.querySelector('.nav-toggle').click()`);
+  assert(await js(`document.querySelector('main').inert`) === true, 'main is not inert while the menu is open');
+  await js(`document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))`);
+  assert(await js(`document.querySelector('main').inert`) === false, 'main is still inert after Escape');
+  assert(await js(`document.activeElement === document.querySelector('.nav-toggle')`), 'focus did not return to the toggle after Escape');
+});
+
+check('nav: without JavaScript, links are visible and reachable at 375px', async () => {
+  await load({ width: 375, height: 812 });
+  const s = await js(`(() => {
+    const menu = document.getElementById('nav-menu');
+    menu.style.transition = 'none';
+    document.documentElement.classList.remove('js');
+    return {
+      visibility: getComputedStyle(menu).visibility,
+      boxes: [...menu.querySelectorAll('a')].map(a => { const r = a.getBoundingClientRect(); return r.width > 0 && r.height > 0; }),
+    };
+  })()`);
+  assert(s.visibility === 'visible', `nav menu visibility is ${s.visibility} without JS`);
+  assert(s.boxes.length === 5 && s.boxes.every(Boolean), 'a nav link has zero size without JS');
 });
 
 check('nav: an open menu closes when the viewport grows to desktop', async () => {
