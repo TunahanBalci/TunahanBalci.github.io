@@ -401,6 +401,53 @@ check('footer: only live links, the real email and the current year', async () =
   assert(await js(`document.getElementById('year')?.textContent`) === String(new Date().getFullYear()), 'year is not current');
 });
 
+// ---------- whole page ----------
+for (const width of [320, 375, 768, 1280]) {
+  check(`page: no sideways scroll at ${width}px`, async () => {
+    await load({ width, height: 800 });
+    const [scroll, client] = await js(`[document.documentElement.scrollWidth, document.documentElement.clientWidth]`);
+    assert(scroll <= client, `page is ${scroll}px wide in a ${client}px viewport`);
+  });
+}
+
+check('page: every in-page link has a target', async () => {
+  await load();
+  const missing = await js(`[...document.querySelectorAll('a[href^="#"]')].map(a => a.getAttribute('href'))
+    .filter(h => !document.getElementById(h.slice(1)))`);
+  assert(missing.length === 0, `links without targets: ${missing.join(', ')}`);
+});
+
+check('page: scrolling top to bottom reveals everything, loads every local image, throws nothing', async () => {
+  await load();
+  await js(`(async () => { for (let y = 0; y <= document.documentElement.scrollHeight; y += innerHeight / 2) {
+    scrollTo({ top: y, behavior: 'instant' }); await new Promise(r => setTimeout(r, 80)); } })()`);
+  await sleep(400);
+  const hidden = await js(`[...document.querySelectorAll('.reveal:not(.is-visible)')].map(e => e.id || e.className)`);
+  assert(hidden.length === 0, `never revealed: ${hidden.join(', ')}`);
+  const broken = await brokenImages();
+  assert(broken.length === 0, `broken local images: ${broken.join(', ')}`);
+  assert(pageErrors().length === 0, `script errors: ${pageErrors().join(' | ')}`);
+});
+
+check('page: layout shift stays under 0.1', async () => {
+  await load();
+  const cls = await js(`new Promise(r => { let s = 0;
+    new PerformanceObserver(l => l.getEntries().forEach(e => { if (!e.hadRecentInput) s += e.value; }))
+      .observe({ type: 'layout-shift', buffered: true });
+    setTimeout(() => r(s), 800); })`);
+  assert(cls < 0.1, `cumulative layout shift is ${cls.toFixed(3)}`);
+});
+
+check('page: reduced motion stops every continuous animation', async () => {
+  await load({ reducedMotion: true });
+  await sleep(1500);
+  const moving = await js(`[...document.querySelectorAll('*')].filter(el =>
+    getComputedStyle(el).animationName !== 'none' || getComputedStyle(el, '::before').animationName !== 'none')
+    .map(el => el.className || el.tagName)`);
+  assert(moving.length === 0, `still animating: ${moving.slice(0, 5).join(', ')}`);
+  assert(!(await js(`document.getElementById('meteor').classList.contains('is-flying')`)), 'meteor flew');
+});
+
 // ---------- run ----------
 const close = await launch();
 let failed = 0;
