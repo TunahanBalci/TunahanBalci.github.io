@@ -61,7 +61,25 @@ function initNav() {
     document.querySelectorAll('main section[id]').forEach(section => spy.observe(section));
 }
 
+// Elements with .reveal fade up once when they enter the viewport.
+// Siblings in the same row stagger through the --i custom property.
+function initReveal() {
+    const io = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+        }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(el => {
+        const siblings = [...el.parentElement.children].filter(c => c.classList.contains('reveal'));
+        el.style.setProperty('--i', siblings.indexOf(el) % 3);
+        io.observe(el);
+    });
+}
+
 // ---------- start ----------
 initSky();
 initMeteor();
 initNav();
+initReveal();

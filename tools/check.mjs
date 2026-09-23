@@ -282,6 +282,51 @@ check('hero: scroll cue fades once the page scrolls', async () => {
   assert(await js(`getComputedStyle(document.querySelector('.scroll-cue')).opacity`) === '0', 'scroll cue still visible');
 });
 
+// ---------- projects ----------
+check('projects: three featured cards then eight compact cards, all linking to GitHub', async () => {
+  await load();
+  const p = await js(`({
+    features: [...document.querySelectorAll('#work .feature')].map(f => f.id).join(),
+    cards: document.querySelectorAll('#work .card').length,
+    links: [...document.querySelectorAll('#work .feature a, #work .card a')].map(a => a.href) })`);
+  assert(p.features === 'project-sepetix,project-travela,project-fitalyze', `featured ids: ${p.features}`);
+  assert(p.cards === 8, `expected 8 compact cards, got ${p.cards}`);
+  assert(p.links.length === 11 && p.links.every(h => h.startsWith('https://github.com/TunahanBalci/')),
+    `expected 11 GitHub links, got ${p.links.length}`);
+});
+
+check('projects: every image has width, height and lazy loading', async () => {
+  await load();
+  const bad = await js(`[...document.querySelectorAll('#work img')]
+    .filter(i => !i.getAttribute('width') || !i.getAttribute('height') || i.loading !== 'lazy')
+    .map(i => i.getAttribute('src'))`);
+  assert(bad.length === 0, `missing size or lazy: ${bad.join(', ')}`);
+});
+
+check('projects: driver screenshot is under 100 KB', () => {
+  const kb = statSync(join(ROOT, 'assets/projects/driver.jpg')).size / 1024;
+  assert(kb < 100, `driver.jpg is ${kb.toFixed(0)} KB`);
+});
+
+// ---------- reveal ----------
+check('reveal: cards fade in only once they scroll into view', async () => {
+  await load();
+  const shown = `document.querySelector('#work .card.reveal').classList.contains('is-visible')`;
+  assert(!(await js(shown)), 'card was revealed before scrolling');
+  await js(`document.querySelector('#work .cards').scrollIntoView({ block: 'center', behavior: 'instant' })`);
+  await sleep(200);
+  assert(await js(shown), 'card never revealed');
+});
+
+check('reveal: content stays visible when JavaScript does not run', async () => {
+  await load();
+  const opacity = await js(`(() => { const el = document.querySelector('#work .card.reveal');
+    el.style.transition = 'none';
+    document.documentElement.classList.remove('js');
+    return getComputedStyle(el).opacity; })()`);
+  assert(opacity === '1', `reveal content has opacity ${opacity} without the js class`);
+});
+
 // ---------- run ----------
 const close = await launch();
 let failed = 0;
